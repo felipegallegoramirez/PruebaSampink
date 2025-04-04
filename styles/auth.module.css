@@ -1,0 +1,315 @@
+
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
+.light {
+  --bg-color: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --input-bg: #f5f7fa;
+  --input-border: #e1e4e8;
+  --input-focus: #1e40af;
+  --button-bg: #1e40af;
+  --button-hover: #1e40af;
+  --button-text: #ffffff;
+  --error-bg: #fee2e2;
+  --error-text: #ef4444;
+  --link-color: #1e40af;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  --bg-color: #1a1a2e;
+  --card-bg: #252543;
+  --text-color: #e6e6e6;
+  --text-secondary: #a0a0a0;
+  --input-bg: #1e1e3a;
+  --input-border: #3a3a5e;
+  --input-focus: #6a6cf7;
+  --button-bg: #6a6cf7;
+  --button-hover: #5a5ce5;
+  --button-text: #ffffff;
+  --error-bg: #471818;
+  --error-text: #f87171;
+  --link-color: #6a6cf7;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  width: 100%;
+  max-width: 450px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  animation: fadeIn 0.5s ease;
+}
+
+.header {
+  padding: 30px 30px 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.formContainer {
+  padding: 0 30px 30px;
+  animation: slideUp 0.4s ease;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.input {
+  height: 44px;
+  padding: 0 16px;
+  font-size: 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
+}
+
+.passwordInput {
+  position: relative;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.togglePassword:hover {
+  color: var(--link-color);
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-top: -10px;
+}
+
+.forgotPassword a {
+  font-size: 13px;
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.forgotPassword a:hover {
+  text-decoration: underline;
+}
+
+.button {
+  height: 44px;
+  background-color: #1e40af !important; 
+  color: #f5f7fa !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+.button:hover {
+  background-color: var(--button-hover);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button.loading {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.button.loading::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.switchView {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  color: var(--link-color);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+}
+
+.switchButton:hover {
+  text-decoration: underline;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: var(--error-bg);
+  border-radius: 6px;
+  color: var(--error-text);
+  font-size: 13px;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.themeToggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.themeToggle:hover {
+  background-color: var(--input-bg);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 0;
+    box-shadow: none;
+    height: 100vh;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    padding: 40px 20px 20px;
+  }
+
+  .formContainer {
+    padding: 0 20px 30px;
+    flex: 1;
+  }
+}
+
+

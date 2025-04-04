@@ -1,0 +1,60 @@
+.logo{
+  margin: 20px 10px;
+  height: 50px;
+  position: relative;
+  z-index: 99;
+  cursor: pointer;
+  
+}
+
+.CentralNav{
+  top: 0px;
+  background-color:  var(--w);
+  position: fixed;
+  width: 400px;
+  height: 100%;
+  z-index: 100;
+  box-sizing: content-box;
+  box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
+  transition: 1s;
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  overflow:scroll;
+  left: -400px;
+  scrollbar-color: var(--c2) var(--w);
+  scrollbar-width: thin;
+}
+
+.CentralNav.Hidden{
+  left: 0px;
+}
+
+.nav-superior>a{
+  display: flex;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-superior>a:hover{
+  background-color: var(--c1);
+}
+
+.nav-superior>a>svg{
+  width: 30px;
+  margin-right: 10px;
+}
+.nav-superior>a:hover>svg>path,.nav-superior>a:hover>p{
+  filter: invert(1);
+}
+.nav-superior>.nav-superior_s{
+  margin: 0px 40px;
+}
+
+.Content{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+}
