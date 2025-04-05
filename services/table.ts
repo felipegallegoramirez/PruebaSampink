@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://sampink-consults.azurewebsites.net/api';
 
 const API_TOKEN = ''
 

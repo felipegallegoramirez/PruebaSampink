@@ -23,30 +23,54 @@ export default function Home() {
   })
   const [filteredPeople, setFilteredPeople] = useState(peopleData)
   const [peopleDataState, setPeopleDataState] = useState(peopleData)
+  const [status, setStatus] = useState(null)
+  const [results, setResults] = useState(null)
+  const [error, setError] = useState(null)
 
   const checkStatus = async () => {
     const id = localStorage.getItem("id")
     if (!id) {
-      console.error("No ID found in localStorage")
+      setError("No job ID found in localStorage.")
       return
     }
 
     try {
+      console.log("Sending request to getStatus with ID:", id); // Log the request
       const response = await getStatus(id)
+      console.log("Received response from getStatus:", response); // Log the response
+
       if (response.estado === "procesando") {
+        console.log("Status is 'procesando'. Retrying in 10 seconds...")
         setTimeout(checkStatus, 10000)
       } else if (response.estado === "finalizado") {
+        console.log("Status is 'finalizado'. Fetching data...")
         const data = await getData(id)
-        setPeopleDataState(data)
+        console.log("Received data from getData:", data); // Log the data response
+        setPeopleDataState([data])
+        setResults(data)
+        setStatus("finalizado")
+      } else {
+        console.log("Unexpected status:", response.estado)
+        setStatus(response.estado)
+        setError("Unexpected status: " + response.estado)
       }
     } catch (error) {
-      console.error("Error checking status or fetching data", error)
+      console.error("Error checking status or fetching data:", error.message)
+      setError("Error checking status or fetching data: " + error.message)
     }
   }
 
   useEffect(() => {
     checkStatus()
   }, [])
+
+  // useEffect(() => {
+  //   console.log("Updated status:", status);
+  // }, [status]);
+  
+  // useEffect(() => {
+  //   console.log("Updated results:", results);
+  // }, [results]);
 
   useEffect(() => {
     let result = peopleDataState
@@ -115,12 +139,12 @@ export default function Home() {
     setAdvancedFilters(newFilters)
   }
 
-  const allCrimes = Array.from(
-    new Set(
-      peopleDataState.flatMap(person => person?.europol?.crimes ?? [])
-                     .filter(crime => crime)
-    )
-  )
+  // const allCrimes = Array.from(
+  //   new Set(
+  //     peopleDataState.flatMap(person => person?.europol?.crimes ?? [])
+  //                    .filter(crime => crime)
+  //   )
+  // )
 
   return (
     <main className="app-container">
@@ -165,7 +189,7 @@ export default function Home() {
             <FilterPanel
               filters={advancedFilters}
               onFilterChange={handleAdvancedFilterChange}
-              availableCrimes={allCrimes}
+              // availableCrimes={allCrimes}
             />
           )}
         </div>
