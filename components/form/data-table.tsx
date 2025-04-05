@@ -57,7 +57,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
       e.preventDefault()
 
       // Determine next cell to focus
-      const fields: (keyof DataRow)[] = ["cedula", "fechaExpedicion", "nombre"]
+      const fields: (keyof DataRow)[] = ["documento", "fechaExpedicion", "tipo"]
       const nextFieldIndex = (fieldIndex + 1) % fields.length
 
       // If we're at the last field and there are more rows
@@ -136,7 +136,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                 onCheckedChange={toggleAllRows}
               />
             </th>
-            <th className="p-2 text-left">Cedula</th>
+            <th className="p-2 text-left">Documento</th>
             <th className="p-2 text-left">Fecha de Expedición</th>
             <th className="p-2 text-left">Tipo de documento</th>
             <th className="p-2 text-left w-10">Actions</th>
@@ -152,21 +152,21 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                 <Checkbox checked={selectedRows.includes(row.id)} onCheckedChange={() => toggleRowSelection(row.id)} />
               </td>
               <td
-                className={`p-2 ${!validateCedula(row.cedula) && row.cedula ? "text-red-500" : ""}`}
-                onClick={() => handleCellClick(row.id, "cedula")}
+                className={`p-2 ${!validateCedula(row.documento) && row.documento ? "text-red-500" : ""}`}
+                onClick={() => handleCellClick(row.id, "documento")}
               >
-                {editingCell?.rowId === row.id && editingCell?.field === "cedula" ? (
+                {editingCell?.rowId === row.id && editingCell?.field === "documento" ? (
                   <Input
                     ref={inputRef}
-                    value={row.cedula}
-                    onChange={(e) => handleCellChange(e, row.id, "cedula")}
+                    value={row.documento}
+                    onChange={(e) => handleCellChange(e, row.id, "documento")}
                     onBlur={handleCellBlur}
                     onKeyDown={(e) => handleKeyDown(e, rowIndex, 0)}
-                    className={`p-1 h-8 ${!validateCedula(row.cedula) ? "border-red-500" : ""}`}
+                    className={`p-1 h-8 ${!validateCedula(row.documento) ? "border-red-500" : ""}`}
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.cedula || <span className="text-gray-400">Enter cedula</span>}
+                    {row.documento || <span className="text-gray-400">Enter Document</span>}
                   </div>
                 )}
               </td>
@@ -186,19 +186,19 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                   </div>
                 )}
               </td>
-              <td className="p-2" onClick={() => handleCellClick(row.id, "nombre")}>
-                {editingCell?.rowId === row.id && editingCell?.field === "nombre" ? (
+              <td className="p-2" onClick={() => handleCellClick(row.id, "tipo")}>
+                {editingCell?.rowId === row.id && editingCell?.field === "tipo" ? (
                   <Input
                     ref={inputRef}
-                    value={row.nombre}
-                    onChange={(e) => handleCellChange(e, row.id, "nombre")}
+                    value={row.tipo}
+                    onChange={(e) => handleCellChange(e, row.id, "tipo")}
                     onBlur={handleCellBlur}
                     onKeyDown={(e) => handleKeyDown(e, rowIndex, 2)}
                     className="p-1 h-8"
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.nombre || <span className="text-gray-400">Enter tipo documento</span>}
+                    {row.tipo || <span className="text-gray-400">Enter tipo documento</span>}
                   </div>
                 )}
               </td>

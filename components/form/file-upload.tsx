@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import type { DataRow } from "./data-entry-app"
 import { Upload, FileWarning } from "lucide-react"
 import * as XLSX from "xlsx"
+import { log } from "console"
 
 interface FileUploadProps {
   onDataLoaded: (data: DataRow[]) => void
@@ -60,7 +61,7 @@ export default function FileUpload({ onDataLoaded, onError, setIsLoading }: File
       const data = await readExcelFile(file)
 
       // Validate the Excel structure
-      const requiredColumns = ["cedula", "fechaExpedicion", "nombre"]
+      const requiredColumns = ["documento", "fechaExpedicion", "tipo"]
       const fileColumns = Object.keys(data[0] || {}).map((key) => key.toLowerCase())
 
       const missingColumns = requiredColumns.filter((col) => !fileColumns.includes(col.toLowerCase()))
@@ -74,12 +75,13 @@ export default function FileUpload({ onDataLoaded, onError, setIsLoading }: File
       // Transform data to match our structure
       const formattedData: DataRow[] = data.map((row: any) => ({
         id: crypto.randomUUID(),
-        cedula: row.cedula?.toString() || "",
-        fechaExpedicion: row.fechaexpedicion?.toString() || "",
-        nombre: row.nombre?.toString() || "",
+        documento: row.documento?.toString() || "",
+        fechaExpedicion: row.fechaExpedicion?.toString() || "",
+        tipo: row.tipo?.toString() || "",
       }))
 
       onDataLoaded(formattedData)
+      console.log("Data loaded successfully:", formattedData)
     } catch (error) {
       onError("Error processing Excel file. Please check the file format.")
       console.error(error)

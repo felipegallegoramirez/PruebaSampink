@@ -11,9 +11,9 @@ import { postList } from "@/services/table"
 
 export type DataRow = {
   id: string
-  cedula: string
+  documento: string
   fechaExpedicion: string
-  nombre: string
+  tipo: string
 }
 
 export default function DataEntryApp() {
@@ -41,9 +41,9 @@ export default function DataEntryApp() {
   const handleAddRow = () => {
     const newRow: DataRow = {
       id: crypto.randomUUID(),
-      cedula: "",
+      documento: "",
       fechaExpedicion: "",
-      nombre: "",
+      tipo: "",
     }
     setData([...data, newRow])
     showNotification("success", "New row added")
@@ -66,7 +66,7 @@ export default function DataEntryApp() {
   const handleSubmit = () => {
     // Validate all data before submission
     const invalidRows = data.filter((row) => {
-      return !row.cedula || !row.fechaExpedicion || !row.nombre || !/^\d+$/.test(row.cedula)
+      return !row.documento || !row.fechaExpedicion || !row.tipo || !/^\d+$/.test(row.documento)
     })
 
     if (invalidRows.length > 0) {
@@ -76,8 +76,8 @@ export default function DataEntryApp() {
 
     // Here you would typically send the data to an API
     let x = {
-      'doc':data[0].cedula,
-      'typedoc':data[0].nombre,
+      'doc':data[0].documento,
+      'typedoc':data[0].tipo,
       'fechaE':data[0].fechaExpedicion,
     }
     postList(x).then((response) => {
