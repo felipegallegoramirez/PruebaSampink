@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useRouter } from 'next/navigation'; // Import useRouter
 import CollapsibleSection from "./collapsible-section" // Asume que este componente existe y funciona
 
 // Importa la interfaz si la tienes definida en un archivo separado (opcional pero recomendado)
@@ -36,6 +37,7 @@ const PersonModal = ({ person, onClose }) => {
 // const PersonModal = ({ person, onClose }: { person: ApiResponse | null, onClose: () => void }) => { // Con tipos explícitos
   const modalRef = useRef(null)
   const [activeTab, setActiveTab] = useState("general") // Mantenemos los tabs originales como guía
+  const router = useRouter(); // Initialize router
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -65,6 +67,7 @@ const PersonModal = ({ person, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content" ref={modalRef}>
+        {/* Close button remains in the top right */}
         <button className="close-button" onClick={onClose} aria-label="Close">
           ×
         </button>
@@ -72,6 +75,30 @@ const PersonModal = ({ person, onClose }) => {
         <div className="modal-header">
           {/* Usa encadenamiento opcional y valor por defecto */}
           <h2>{person?.nombre ?? 'Nombre no disponible'}</h2>
+
+           {/* --- PDF Button --- */}
+           <div className="modal-actions" style={{ position: 'absolute', top: '15px', right: '50px' /* Adjust as needed */ }}>
+             <button
+               className="pdf-button" // Add class for better styling via CSS
+               onClick={() => router.push('/listpdf')}
+               style={{
+                 padding: '5px 10px',
+                 marginRight: '10px', // Space before close button if needed
+                 backgroundColor: '#4CAF50', // Example green
+                 color: 'white',
+                 border: 'none',
+                 borderRadius: '4px',
+                 cursor: 'pointer',
+                 fontSize: '0.9em',
+                 fontWeight: 'bold'
+               }}
+             >
+               Generar PDF
+             </button>
+           </div>
+           {/* --- End PDF Button --- */}
+
+
           <div className="modal-tabs">
             {/* Los nombres de los tabs se mantienen, el contenido se adapta */}
             <button
@@ -345,7 +372,7 @@ const PersonModal = ({ person, onClose }) => {
                       <div className="info-item"> <span className="info-label">Interpol:</span> <span className="info-value">{person?.interpol ? 'Registra' : 'No registra'}</span> </div>
                   </div>
                    {/* Detalles OFAC si existen */}
-                  {person?.ofac && (
+                  {person?.ofac && typeof person.ofac === 'object' && !Array.isArray(person.ofac) && ( // Added check for object type
                     <>
                       <h4>Detalles OFAC</h4>
                       <div className="info-grid small-grid">
@@ -401,7 +428,7 @@ const PersonModal = ({ person, onClose }) => {
                   <p><strong>SECOP Sanciones:</strong> {(person?.secop_s?.length ?? 0)} sanción(es)</p>
                   {/* Mostrar resumen o primeros contratos/sanciones si es necesario */}
                   {/* Ejemplo SECOP II */}
-                   {(person?.secop2?.length ?? 0) > 0 && (
+                   {(person?.secop2?.length ?? 0) > 0 && person.secop2[0] && ( // Added check for person.secop2[0]
                      <>
                       <h4>Primer Contrato SECOP II</h4>
                        <div className="info-grid small-grid finding-item">
@@ -539,10 +566,10 @@ const PersonModal = ({ person, onClose }) => {
                  {person?.ruaf ? (
                    <>
                     {/* Mostrar resumen de cada sistema */}
-                    <p><strong>Salud:</strong> {(person.ruaf.Salud?.length ?? 0) > 0 ? `${person.ruaf.Salud[0]?.Administradora ?? ''} (${person.ruaf.Salud[0]?.Régimen ?? ''} - ${person.ruaf.Salud[0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
-                    <p><strong>Pensiones:</strong> {(person.ruaf.Pensiones?.length ?? 0) > 0 ? `${person.ruaf.Pensiones[0]?.Administradora ?? ''} (${person.ruaf.Pensiones[0]?.Régimen ?? ''} - ${person.ruaf.Pensiones[0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
-                    <p><strong>ARL:</strong> {(person.ruaf.ARL?.length ?? 0) > 0 ? `${person.ruaf.ARL[0]?.Administradora ?? ''} (${person.ruaf.ARL[0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
-                    <p><strong>Caja Comp.:</strong> {(person.ruaf['Caja de compensación']?.length ?? 0) > 0 ? `${person.ruaf['Caja de compensación'][0]?.['Administradora CF'] ?? ''} (${person.ruaf['Caja de compensación'][0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
+                    <p><strong>Salud:</strong> {(person.ruaf.Salud?.length ?? 0) > 0 && person.ruaf.Salud[0] ? `${person.ruaf.Salud[0]?.Administradora ?? ''} (${person.ruaf.Salud[0]?.Régimen ?? ''} - ${person.ruaf.Salud[0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
+                    <p><strong>Pensiones:</strong> {(person.ruaf.Pensiones?.length ?? 0) > 0 && person.ruaf.Pensiones[0] ? `${person.ruaf.Pensiones[0]?.Administradora ?? ''} (${person.ruaf.Pensiones[0]?.Régimen ?? ''} - ${person.ruaf.Pensiones[0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
+                    <p><strong>ARL:</strong> {(person.ruaf.ARL?.length ?? 0) > 0 && person.ruaf.ARL[0] ? `${person.ruaf.ARL[0]?.Administradora ?? ''} (${person.ruaf.ARL[0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
+                    <p><strong>Caja Comp.:</strong> {(person.ruaf['Caja de compensación']?.length ?? 0) > 0 && person.ruaf['Caja de compensación'][0] ? `${person.ruaf['Caja de compensación'][0]?.['Administradora CF'] ?? ''} (${person.ruaf['Caja de compensación'][0]?.['Estado de Afiliación'] ?? ''})` : 'No registra'}</p>
                     <p><strong>Cesantías:</strong> {person.ruaf.Cesantías?.[0]?.Cesantías ?? 'No registra'}</p>
                    </>
                  ) : <p className="no-findings">No hay información de afiliaciones RUAF disponible.</p>}

@@ -8,6 +8,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle2 } from "lucide-react"
 import styles from "../../styles/auth.module.css"
 import { postList } from "@/services/table"
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export type DataRow = {
   id: string
@@ -17,6 +19,7 @@ export type DataRow = {
 }
 
 export default function DataEntryApp() {
+  const router = useRouter()
   const [data, setData] = useState<DataRow[]>([])
   const [notification, setNotification] = useState<{
     type: "success" | "error"
@@ -82,8 +85,11 @@ export default function DataEntryApp() {
     }
     postList(x).then((response) => {
       localStorage.setItem("id", response.jobid)
+      router.push('/list')
+      showNotification("success", "Data submitted successfully")
     })
-    showNotification("success", "Data submitted successfully")
+
+
   }
 
   return (

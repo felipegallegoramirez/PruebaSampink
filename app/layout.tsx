@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './App.css'
+import LayoutClient from './LayoutClient'
 
 export const metadata: Metadata = {
   title: 'v0 App',
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <LayoutClient>{children}</LayoutClient>
+      </body>
     </html>
   )
 }

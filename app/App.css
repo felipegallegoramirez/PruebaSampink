@@ -9,7 +9,7 @@
 
 .CentralNav{
   top: 0px;
-  background-color:  var(--w);
+  background-color:  white;
   position: fixed;
   width: 400px;
   height: 100%;
