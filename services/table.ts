@@ -1,7 +1,8 @@
 import axios from "axios";
 
 
-const API_URL = 'https://sampink-consults.azurewebsites.net/api';
+const API_URL = 'https://sampink-background-check.azurewebsites.net/api';
+
 
 const API_TOKEN = process.env.API_TOKEN || '';
 
