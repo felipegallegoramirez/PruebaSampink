@@ -30,47 +30,41 @@ export default function Home() {
   const checkStatus = async () => {
     const id = localStorage.getItem("id")
     if (!id) {
-      setError("No job ID found in localStorage.")
+      setError("No se encontró el ID del trabajo en el almacenamiento local.")
       return
     }
 
     try {
-      console.log("Sending request to getStatus with ID:", id); // Log the request
+      console.log("Enviando solicitud para obtener el estado con el ID:", id);
       const response = await getStatus(id)
-      console.log("Received response from getStatus:", response); // Log the response
+      console.log("Respuesta recibida del estado:", response);
 
       if (response.estado === "procesando") {
-        console.log("Status is 'procesando'. Retrying in 10 seconds...")
+        console.log("El estado es 'procesando'. Reintentando en 10 segundos...")
         setTimeout(checkStatus, 10000)
-      } else if (response.estado === "finalizado") {
-        console.log("Status is 'finalizado'. Fetching data...")
+      }
+      else if (response.estado === "finalizado") {
+        console.log("El estado es 'finalizado'. Obteniendo datos...")
         const data = await getData(id)
-        console.log("Received data from getData:", data); // Log the data response
+        console.log("Datos recibidos:", data);
         setPeopleDataState([data])
         setResults(data)
         setStatus("finalizado")
-      } else {
-        console.log("Unexpected status:", response.estado)
+      }
+      else {
+        console.log("Estado inesperado:", response.estado)
         setStatus(response.estado)
-        setError("Unexpected status: " + response.estado)
+        setError("Estado inesperado: " + response.estado)
       }
     } catch (error) {
-      console.error("Error checking status or fetching data:", error.message)
-      setError("Error checking status or fetching data: " + error.message)
+      console.error("Error al verificar el estado o al obtener los datos:", error.message)
+      setError("Error al verificar el estado o al obtener los datos: " + error.message)
     }
   }
 
   useEffect(() => {
     checkStatus()
   }, [])
-
-  // useEffect(() => {
-  //   console.log("Updated status:", status);
-  // }, [status]);
-  
-  // useEffect(() => {
-  //   console.log("Updated results:", results);
-  // }, [results]);
 
   useEffect(() => {
     let result = peopleDataState
@@ -139,18 +133,11 @@ export default function Home() {
     setAdvancedFilters(newFilters)
   }
 
-  // const allCrimes = Array.from(
-  //   new Set(
-  //     peopleDataState.flatMap(person => person?.europol?.crimes ?? [])
-  //                    .filter(crime => crime)
-  //   )
-  // )
-
   return (
     <main className="app-container">
       <div className="app-header">
-        <h1>Risk Intelligence System</h1>
-        <p className="app-subtitle">Comprehensive monitoring and reporting platform</p>
+        <h1>Entity Whatcher</h1>
+        <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
       </div>
 
       <div className="content-container">
@@ -159,7 +146,7 @@ export default function Home() {
             <div className="search-container">
               <input
                 type="text"
-                placeholder="Search by Name or ID..."
+                placeholder="Buscar por Nombre o ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -172,16 +159,16 @@ export default function Home() {
                 onChange={(e) => setCategoryFilter(e.target.value)}
                 className="category-select"
               >
-                <option value="all">All Categories</option>
-                <option value="highReports">High Reports {'>'} 0</option>
-                <option value="mediumReports">Medium Reports {'>'} 0</option>
-                <option value="lowReports">Low Reports {'>'} 0</option>
-                <option value="crimes">Has Crimes</option>
+                <option value="all">Todas las Categorías</option>
+                <option value="highReports">Reportes Altos {'>'} 0</option>
+                <option value="mediumReports">Reportes Medios {'>'} 0</option>
+                <option value="lowReports">Reportes Bajos {'>'} 0</option>
+                <option value="crimes">Con Crímenes</option>
               </select>
             </div>
 
             <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
-              {showAdvancedFilters ? "Hide Advanced Filters" : "Advanced Filters"}
+              {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
             </button>
           </div>
 
@@ -195,7 +182,7 @@ export default function Home() {
         </div>
 
         <div className="results-info">
-          Showing {filteredPeople.length} of {peopleDataState?.length ?? 0} records
+          Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
         </div>
 
         <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />

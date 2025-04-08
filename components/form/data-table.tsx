@@ -102,7 +102,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
     return (
       <div className="flex justify-center items-center py-12">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <span className="ml-2 text-lg">Processing file...</span>
+        <span className="ml-2 text-lg">Procesando archivo...</span>
       </div>
     )
   }
@@ -110,7 +110,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
   if (data.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
-        No data available. Upload an Excel file or add rows manually.
+        No hay datos disponibles. Sube un archivo de Excel o añade filas manualmente.
       </div>
     )
   }
@@ -119,10 +119,10 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
     <div className="overflow-x-auto">
       {selectedRows.length > 0 && (
         <div className="mb-4 flex justify-between items-center">
-          <span className="text-sm">{selectedRows.length} rows selected</span>
+          <span className="text-sm">{selectedRows.length} filas seleccionadas</span>
           <Button variant="destructive" size="sm" onClick={handleBulkDelete}>
             <Trash2 className="h-4 w-4 mr-2" />
-            Delete Selected
+            Eliminar Seleccionados
           </Button>
         </div>
       )}
@@ -139,7 +139,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
             <th className="p-2 text-left">Documento</th>
             <th className="p-2 text-left">Fecha de Expedición</th>
             <th className="p-2 text-left">Tipo de documento</th>
-            <th className="p-2 text-left w-10">Actions</th>
+            <th className="p-2 text-left w-10">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -166,7 +166,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.documento || <span className="text-gray-400">Enter Document</span>}
+                    {row.documento || <span className="text-gray-400">Ingresar Documento</span>}
                   </div>
                 )}
               </td>
@@ -182,7 +182,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.fechaExpedicion || <span className="text-gray-400">Enter fecha</span>}
+                    {row.fechaExpedicion || <span className="text-gray-400">Ingresar fecha</span>}
                   </div>
                 )}
               </td>
@@ -198,7 +198,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.tipo || <span className="text-gray-400">Enter tipo documento</span>}
+                    {row.tipo || <span className="text-gray-400">Ingresar tipo de documento</span>}
                   </div>
                 )}
               </td>
@@ -219,4 +219,3 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
     </div>
   )
 }
-

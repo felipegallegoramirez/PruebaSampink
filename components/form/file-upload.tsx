@@ -49,9 +49,8 @@ export default function FileUpload({ onDataLoaded, onError, setIsLoading }: File
   }
 
   const handleFile = async (file: File) => {
-    // Check if file is an Excel file
     if (!file.name.endsWith(".xlsx")) {
-      onError("Please upload a valid Excel (.xlsx) file")
+      onError("Por favor, sube un archivo Excel válido (.xlsx)")
       return
     }
 
@@ -60,19 +59,17 @@ export default function FileUpload({ onDataLoaded, onError, setIsLoading }: File
     try {
       const data = await readExcelFile(file)
 
-      // Validate the Excel structure
       const requiredColumns = ["documento", "fechaExpedicion", "tipo"]
       const fileColumns = Object.keys(data[0] || {}).map((key) => key.toLowerCase())
 
       const missingColumns = requiredColumns.filter((col) => !fileColumns.includes(col.toLowerCase()))
 
       if (missingColumns.length > 0) {
-        onError(`Missing required columns: ${missingColumns.join(", ")}`)
+        onError(`Faltan las columnas requeridas: ${missingColumns.join(", ")}`)
         setIsLoading(false)
         return
       }
 
-      // Transform data to match our structure
       const formattedData: DataRow[] = data.map((row: any) => ({
         id: crypto.randomUUID(),
         documento: row.documento?.toString() || "",
@@ -83,11 +80,10 @@ export default function FileUpload({ onDataLoaded, onError, setIsLoading }: File
       onDataLoaded(formattedData)
       console.log("Data loaded successfully:", formattedData)
     } catch (error) {
-      onError("Error processing Excel file. Please check the file format.")
+      onError("Error al procesar el archivo Excel. Por favor, verifica el formato del archivo.")
       console.error(error)
     } finally {
       setIsLoading(false)
-      // Reset the file input
       if (inputRef.current) {
         inputRef.current.value = ""
       }
@@ -141,18 +137,17 @@ export default function FileUpload({ onDataLoaded, onError, setIsLoading }: File
 
         <div className="space-y-2">
           <h3 className="text-lg font-medium">
-            {dragActive ? "Drop the file here" : "Drag & drop your Excel file here"}
+            {dragActive ? "Suelta el archivo aquí" : "Arrastra y suelta tu archivo Excel aquí"}
           </h3>
-          <p className="text-sm text-gray-500">Only .xlsx files with columns: Cedula, Fecha de Expedición, Nombre</p>
+          <p className="text-sm text-gray-500">Solo archivos .xlsx con las columnas: Documento, Fecha de Expedición, Tipo</p>
         </div>
 
         <div className="flex justify-center">
           <Button type="button" onClick={onButtonClick} variant="outline">
-            Browse Files
+            Buscar Archivos
           </Button>
         </div>
       </div>
     </div>
   )
 }
-

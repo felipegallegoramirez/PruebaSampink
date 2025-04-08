@@ -87,13 +87,13 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
 
   return (
     <div className="advanced-filter-panel bg-gray-100 p-4 rounded shadow mb-6">
-      <h3 className="text-lg font-semibold mb-3">Advanced Filters</h3>
+      <h3 className="text-lg font-semibold mb-3">Filtros Avanzados</h3>
 
       <div className="filter-section mb-4">
-        <h4 className="text-md font-medium mb-2">Minimum Reports</h4>
+        <h4 className="text-md font-medium mb-2">Reportes Mínimos</h4>
         <div className="filter-controls grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="filter-control">
-            <label htmlFor="minHighReports" className="block text-sm font-medium text-gray-700 mb-1">High Reports:</label>
+            <label htmlFor="minHighReports" className="block text-sm font-medium text-gray-700 mb-1">Reportes Altos:</label>
             <input
               id="minHighReports"
               type="number"
@@ -106,7 +106,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
           </div>
 
           <div className="filter-control">
-            <label htmlFor="minMediumReports" className="block text-sm font-medium text-gray-700 mb-1">Medium Reports:</label>
+            <label htmlFor="minMediumReports" className="block text-sm font-medium text-gray-700 mb-1">Reportes Medios:</label>
             <input
               id="minMediumReports"
               type="number"
@@ -119,7 +119,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
           </div>
 
           <div className="filter-control">
-            <label htmlFor="minLowReports" className="block text-sm font-medium text-gray-700 mb-1">Low Reports:</label>
+            <label htmlFor="minLowReports" className="block text-sm font-medium text-gray-700 mb-1">Reportes Bajos:</label>
             <input
               id="minLowReports"
               type="number"
@@ -134,7 +134,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
       </div>
 
       <div className="filter-section mb-4">
-        <h4 className="text-md font-medium mb-2">Specific Crimes</h4>
+        <h4 className="text-md font-medium mb-2">Crímenes Específicos</h4>
         <div className="crimes-filter grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {possibleCrimes.map((crime) => (
             <div key={crime} className="crime-checkbox flex items-center">
@@ -155,7 +155,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
         className="reset-filters-button w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
         onClick={resetFilters}
       >
-        Reset Filters
+        Reiniciar Filtros
       </button>
     </div>
   )

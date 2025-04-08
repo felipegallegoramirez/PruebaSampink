@@ -18,66 +18,66 @@ export type DataRow = {
   tipo: string
 }
 
-export default function DataEntryApp() {
+export default function IngresoDeDatosApp() {
   const router = useRouter()
   const [data, setData] = useState<DataRow[]>([])
-  const [notification, setNotification] = useState<{
+  const [notificacion, setNotificacion] = useState<{
     type: "success" | "error"
     message: string
   } | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [cargando, setCargando] = useState(false)
 
-  const handleFileData = (fileData: DataRow[]) => {
-    setData(fileData)
-    showNotification("success", "File data loaded successfully")
+  const manejarDatosDelArchivo = (datosDelArchivo: DataRow[]) => {
+    setData(datosDelArchivo)
+    mostrarNotificacion("success", "Los datos del archivo se han cargado correctamente")
   }
 
-  const handleFileError = (error: string) => {
-    showNotification("error", error)
+  const manejarErrorDelArchivo = (error: string) => {
+    mostrarNotificacion("error", error)
   }
 
-  const showNotification = (type: "success" | "error", message: string) => {
-    setNotification({ type, message })
-    setTimeout(() => setNotification(null), 5000)
+  const mostrarNotificacion = (type: "success" | "error", message: string) => {
+    setNotificacion({ type, message })
+    setTimeout(() => setNotificacion(null), 5000)
   }
 
-  const handleAddRow = () => {
-    const newRow: DataRow = {
+  const manejarAgregarFila = () => {
+    const nuevaFila: DataRow = {
       id: crypto.randomUUID(),
       documento: "",
       fechaExpedicion: "",
       tipo: "",
     }
-    setData([...data, newRow])
-    showNotification("success", "New row added")
+    setData([...data, nuevaFila])
+    mostrarNotificacion("success", "Se ha agregado una nueva fila")
   }
 
-  const handleUpdateRow = (updatedRow: DataRow) => {
-    setData(data.map((row) => (row.id === updatedRow.id ? updatedRow : row)))
+  const manejarActualizarFila = (filaActualizada: DataRow) => {
+    setData(data.map((fila) => (fila.id === filaActualizada.id ? filaActualizada : fila)))
   }
 
-  const handleDeleteRow = (id: string) => {
-    setData(data.filter((row) => row.id !== id))
-    showNotification("success", "Row deleted")
+  const manejarEliminarFila = (id: string) => {
+    setData(data.filter((fila) => fila.id !== id))
+    mostrarNotificacion("success", "Fila eliminada")
   }
 
-  const handleBulkDelete = (selectedIds: string[]) => {
-    setData(data.filter((row) => !selectedIds.includes(row.id)))
-    showNotification("success", `${selectedIds.length} rows deleted`)
+  const manejarEliminacionMasiva = (idsSeleccionados: string[]) => {
+    setData(data.filter((fila) => !idsSeleccionados.includes(fila.id)))
+    mostrarNotificacion("success", `${idsSeleccionados.length} filas eliminadas`)
   }
 
-  const handleSubmit = () => {
-    // Validate all data before submission
-    const invalidRows = data.filter((row) => {
-      return !row.documento || !row.fechaExpedicion || !row.tipo || !/^\d+$/.test(row.documento)
+  const manejarEnvio = () => {
+    // Validar todos los datos antes de enviar
+    const filasInvalidas = data.filter((fila) => {
+      return !fila.documento || !fila.fechaExpedicion || !fila.tipo || !/^\d+$/.test(fila.documento)
     })
 
-    if (invalidRows.length > 0) {
-      showNotification("error", "Please correct invalid data before submitting")
+    if (filasInvalidas.length > 0) {
+      mostrarNotificacion("error", "Por favor, corrija los datos inválidos antes de enviar")
       return
     }
 
-    // Here you would typically send the data to an API
+    // Aquí típicamente enviarías los datos a una API
     let x = {
       'doc':data[0].documento,
       'typedoc':data[0].tipo,
@@ -86,7 +86,7 @@ export default function DataEntryApp() {
     postList(x).then((response) => {
       localStorage.setItem("id", response.jobid)
       router.push('/list')
-      showNotification("success", "Data submitted successfully")
+      mostrarNotificacion("success", "Datos enviados correctamente")
     })
 
 
@@ -94,39 +94,38 @@ export default function DataEntryApp() {
 
   return (
     <div className="space-y-6">
-      {notification && (
-        <Alert variant={notification.type === "error" ? "destructive" : "default"} className="animate-in fade-in">
-          {notification.type === "error" ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-          <AlertDescription>{notification.message}</AlertDescription>
+      {notificacion && (
+        <Alert variant={notificacion.type === "error" ? "destructive" : "default"} className="animate-in fade-in">
+          {notificacion.type === "error" ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+          <AlertDescription>{notificacion.message}</AlertDescription>
         </Alert>
       )}
 
       <div className="bg-white p-6 rounded-lg shadow-sm border">
-        <h2 className="text-xl font-semibold mb-4">Upload Excel File</h2>
-        <FileUpload onDataLoaded={handleFileData} onError={handleFileError} setIsLoading={setIsLoading} />
+        <h2 className="text-xl font-semibold mb-4">Consulta en bloque</h2>
+        <FileUpload onDataLoaded={manejarDatosDelArchivo} onError={manejarErrorDelArchivo} setIsLoading={setCargando} />
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-sm border">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Data Table</h2>
-          <Button className={styles.button} onClick={handleAddRow}>Add New Row</Button>
+          <h2 className="text-xl font-semibold">Consulta en bloque</h2>
+          <Button className={styles.button} onClick={manejarAgregarFila}>Agregar Nueva Fila</Button>
         </div>
 
         <DataTable
           data={data}
-          onUpdateRow={handleUpdateRow}
-          onDeleteRow={handleDeleteRow}
-          onBulkDelete={handleBulkDelete}
-          isLoading={isLoading}
+          onUpdateRow={manejarActualizarFila}
+          onDeleteRow={manejarEliminarFila}
+          onBulkDelete={manejarEliminacionMasiva}
+          isLoading={cargando}
         />
 
         {data.length > 0 && (
           <div className="mt-6 flex justify-end">
-            <Button className={styles.button} onClick={handleSubmit}>Submit Data</Button>
+            <Button className={styles.button} onClick={manejarEnvio}>Enviar Datos</Button>
           </div>
         )}
       </div>
     </div>
   )
 }
-
