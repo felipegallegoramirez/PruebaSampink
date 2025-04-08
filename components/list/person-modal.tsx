@@ -135,7 +135,7 @@ const PersonModal = ({ person, onClose }) => {
           {activeTab === "general" && (
             <div className="tab-content">
               {/* --- Sección CIDOB --- */}
-              <CollapsibleSection title="Información CIDOB" defaultOpen={!!person?.cidob}>
+              <CollapsibleSection title="Información PEP" defaultOpen={!!person?.cidob}>
                 {person?.cidob ? (
                   <div className="info-grid">
                     <div className="info-item"> <span className="info-label">Alias:</span> <span className="info-value">{person.cidob.Alias ?? '--'}</span> </div>
