@@ -7,6 +7,8 @@ import { useAuth } from "./auth-context"
 import PasswordInput from "./password-input"
 import FormError from "./form-error"
 import styles from "../../styles/auth.module.css"
+import { register } from "@/services/user"
+
 
 export default function RegisterForm() {
   const { switchView } = useAuth()
@@ -17,7 +19,7 @@ export default function RegisterForm() {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
@@ -39,18 +41,33 @@ export default function RegisterForm() {
 
     setIsLoading(true)
 
-    // Mock registration
-    setTimeout(() => {
-      // For demo purposes, accept any valid registration
-      if (email.includes("@")) {
-        // Store user in localStorage
-        localStorage.setItem("user", JSON.stringify({ email, fullName }))
-        window.location.reload() // Reload to update auth state
-      } else {
-        setError("Please enter a valid email")
+
+    if (email.includes("@")) {
+      let infor = {
+        fullName,
+        email,
+        password,
       }
+      try {
+        const data = await register(infor)
+        localStorage.setItem("id", data.id)
+        window.location.reload() 
+      } catch (err: any) {
+        if (err.response && err.response.status === 400) {
+          const errorMessage = err.response.data.message || 
+          "Registration failed. Please check your information and try again."
+          setError(errorMessage)
+        } else {
+          setError("An unexpected error occurred. Please try again.")
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    } else {
+      setError("Please enter a valid email")
+    }
       setIsLoading(false)
-    }, 1000)
+
   }
 
   return (
