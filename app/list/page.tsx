@@ -6,6 +6,7 @@ import ReportsTable from "@/components/list/reports-table"
 import FilterPanel from "@/components/list/filter-panel"
 import "./styles.css"
 import { getStatus, getData } from "@/services/table"
+import LayoutClient from "../LayoutClient"
 
 const peopleData = [{}]
 
@@ -106,7 +107,7 @@ export default function Home() {
       if (advancedFilters.specificCrimes.length > 0) {
         result = result.filter((person) =>
           (person?.europol?.crimes ?? []).some((crime) =>
-              crime && advancedFilters.specificCrimes.includes(crime)
+            crime && advancedFilters.specificCrimes.includes(crime)
           )
         )
       }
@@ -134,63 +135,68 @@ export default function Home() {
   }
 
   return (
-    <main className="app-container">
-      <div className="app-header">
-        <h1>Entity Whatcher</h1>
-        <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
-      </div>
+    <div>
+      <LayoutClient children={undefined}></LayoutClient>
+      <main className="app-container">
+        <div className="app-header text-left">
+          <h1 className="text-3xl font-bold mb-6 text-gray-800">
+            Entity Watcher
+          </h1>
+          <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
+        </div>
 
-      <div className="content-container">
-        <div className="filters-container">
-          <div className="basic-filters">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Buscar por Nombre o ID..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
+        <div className="content-container">
+          <div className="filters-container">
+            <div className="basic-filters">
+              <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Buscar por Nombre o ID..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+              </div>
+
+              <div className="category-filter">
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="category-select"
+                >
+                  <option value="all">Todas las Categorías</option>
+                  <option value="highReports">Reportes Altos {'>'} 0</option>
+                  <option value="mediumReports">Reportes Medios {'>'} 0</option>
+                  <option value="lowReports">Reportes Bajos {'>'} 0</option>
+                  <option value="crimes">Con Crímenes</option>
+                </select>
+              </div>
+
+              <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
+                {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
+              </button>
+            </div>
+
+            {showAdvancedFilters && (
+              <FilterPanel
+                filters={advancedFilters}
+                onFilterChange={handleAdvancedFilterChange}
+              // availableCrimes={allCrimes}
               />
-            </div>
-
-            <div className="category-filter">
-              <select
-                value={categoryFilter}
-                onChange={(e) => setCategoryFilter(e.target.value)}
-                className="category-select"
-              >
-                <option value="all">Todas las Categorías</option>
-                <option value="highReports">Reportes Altos {'>'} 0</option>
-                <option value="mediumReports">Reportes Medios {'>'} 0</option>
-                <option value="lowReports">Reportes Bajos {'>'} 0</option>
-                <option value="crimes">Con Crímenes</option>
-              </select>
-            </div>
-
-            <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
-              {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
-            </button>
+            )}
           </div>
 
-          {showAdvancedFilters && (
-            <FilterPanel
-              filters={advancedFilters}
-              onFilterChange={handleAdvancedFilterChange}
-              // availableCrimes={allCrimes}
-            />
-          )}
+          <div className="results-info">
+            Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
+          </div>
+
+          <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />
         </div>
 
-        <div className="results-info">
-          Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
-        </div>
-
-        <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />
-      </div>
-
-      {isModalOpen && selectedPerson && (
-        <PersonModal person={selectedPerson} onClose={closeModal} />
-      )}
-    </main>
+        {isModalOpen && selectedPerson && (
+          <PersonModal person={selectedPerson} onClose={closeModal} />
+        )}
+      </main>
+    </div>
   )
 }
