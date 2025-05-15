@@ -32,8 +32,8 @@ export default function LoginForm() {
 
 if (email.includes("@")) {
       let infor = {
-        email,
-        password,
+        'username':email,
+        'password':password,
       }
       try {
         const data = await login(infor)

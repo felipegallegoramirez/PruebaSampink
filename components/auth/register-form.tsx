@@ -44,9 +44,9 @@ export default function RegisterForm() {
 
     if (email.includes("@")) {
       let infor = {
-        fullName,
-        email,
-        password,
+        'fullName':fullName,
+        'username':email,
+        'password':password,
       }
       try {
         const data = await register(infor)
