@@ -8,7 +8,7 @@ import PasswordInput from "./password-input"
 import FormError from "./form-error"
 import styles from "../../styles/auth.module.css"
 import { register } from "@/services/user"
-
+import { useRouter } from 'next/navigation'
 
 export default function RegisterForm() {
   const { switchView } = useAuth()
@@ -50,8 +50,9 @@ export default function RegisterForm() {
       }
       try {
         const data = await register(infor)
-        localStorage.setItem("id", data.id)
-        window.location.reload() 
+        localStorage.setItem("idUser", data.id)
+        const router = useRouter()
+        router.push('/list')
       } catch (err: any) {
         if (err.response && err.response.status === 400) {
           const errorMessage = err.response.data.message || 

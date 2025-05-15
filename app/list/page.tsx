@@ -5,7 +5,7 @@ import PersonModal from "@/components/list/person-modal"
 import ReportsTable from "@/components/list/reports-table"
 import FilterPanel from "@/components/list/filter-panel"
 import "./styles.css"
-import { getStatus, getData } from "@/services/table"
+import { getStatus, getData,getPerson } from "@/services/table"
 
 const peopleData = [{}]
 
@@ -28,7 +28,7 @@ export default function Home() {
   const [error, setError] = useState(null)
 
   const checkStatus = async () => {
-    const id = localStorage.getItem("id")
+    const id = localStorage.getItem("idUser")
     if (!id) {
       setError("No se encontró el ID del trabajo en el almacenamiento local.")
       return
@@ -115,7 +115,8 @@ export default function Home() {
     setFilteredPeople(result)
   }, [searchTerm, categoryFilter, advancedFilters, showAdvancedFilters, peopleDataState])
 
-  const handleRowClick = (person) => {
+  const handleRowClick = async (id) => {
+    const person = await getPerson(id);
     setSelectedPerson(person)
     setIsModalOpen(true)
   }

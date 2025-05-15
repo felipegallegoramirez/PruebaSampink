@@ -9,6 +9,7 @@ import FormError from "./form-error"
 import styles from "../../styles/auth.module.css"
 import { getStatus } from "@/services/table"
 import { login } from "@/services/user"
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
   const { switchView } = useAuth()
@@ -36,8 +37,9 @@ if (email.includes("@")) {
       }
       try {
         const data = await login(infor)
-        window.location.reload()
-        localStorage.setItem("id", data.id)
+        localStorage.setItem("idUser", data.id)
+        const router = useRouter()
+        router.push('/list')
       } catch (err: any) {
         if (err.response && err.response.status === 400) {
           const errorMessage = err.response.data.message || 
