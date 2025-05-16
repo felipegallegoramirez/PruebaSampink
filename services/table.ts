@@ -1,9 +1,9 @@
 import axios from "axios";
 
 
-const API_URL = 'https://sampink-consults.azurewebsites.net/api';
+const API_URL = 'https://sampink-background-check.azurewebsites.net/api/';
 
-const API_TOKEN = ''
+const API_TOKEN = 'code=WThMmGJ1ftDXubH20WMzYar Tu2sDCDBuf1R90_Jz-RZAzFun45_iw=='
 
 //const token = localStorage.getItem("token");
 

@@ -44,7 +44,7 @@ export default function RegisterForm() {
 
     if (email.includes("@")) {
       let infor = {
-        'fullName':fullName,
+//        'fullName':fullName,
         'username':email,
         'password':password,
       }
