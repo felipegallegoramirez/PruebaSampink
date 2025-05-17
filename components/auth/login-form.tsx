@@ -87,7 +87,6 @@ if (email.includes("@")) {
         <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
 
-      <button className={styles.button} onClick={consultelist}>Consulte</button>
 
       <div className={styles.forgotPassword}>
         <a href="#" onClick={(e) => e.preventDefault()}>
