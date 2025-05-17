@@ -8,10 +8,8 @@ const ReportsTable = ({ people, onRowClick }) => {
           <tr>
             <th>Nombre</th>
             <th>ID (Cédula)</th>
-            <th>Reportes Altos</th>
-            <th>Reportes Medios</th>
-            <th>Reportes Bajos</th>
-            <th>Crímenes (Europol)</th>
+            <th>Estado</th>
+            <th>Fecha</th>
           </tr>
         </thead>
         <tbody>
@@ -20,8 +18,8 @@ const ReportsTable = ({ people, onRowClick }) => {
 
             return (
               <tr key={key} onClick={() => onRowClick(person?.id)}>
-                <td>{person?.nombre ?? 'N/A'}</td>
-                <td>{person?.doc ?? 'ID Desconocido'}</td>
+                <td>{person?.name ?? 'N/A'}</td>
+                <td>{person?.document ?? 'ID Desconocido'}</td>
                 <td>{person?.status ?? 'Estado Desconocido'}</td>
                 <td>{person?.timestamp ?? 'Tiempo Desconocido'}</td>
               </tr>
