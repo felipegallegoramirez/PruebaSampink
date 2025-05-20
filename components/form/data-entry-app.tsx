@@ -108,14 +108,14 @@ export default function IngresoDeDatosApp() {
       )}
 
       <div className="bg-white p-6 rounded-lg shadow-sm border">
-        <h2 className="text-xl font-semibold mb-4">Consulta en bloque</h2>
+        <h2 className="text-xl font-semibold mb-4">Importar Base de Datos</h2>
         <FileUpload onDataLoaded={manejarDatosDelArchivo} onError={manejarErrorDelArchivo} setIsLoading={setCargando} />
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-sm border">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Consulta en bloque</h2>
-          <Button className={styles.button} onClick={manejarAgregarFila}>Agregar Nueva Fila</Button>
+          <h2 className="text-xl font-semibold">Consultas</h2>
+          <Button className={styles.button} onClick={manejarAgregarFila}>Agregar Nueva Consulta</Button>
         </div>
 
         <DataTable

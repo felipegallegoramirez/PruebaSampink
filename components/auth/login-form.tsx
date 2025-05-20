@@ -68,13 +68,13 @@ if (email.includes("@")) {
 
       <div className={styles.formGroup}>
         <label htmlFor="email" className={styles.label}>
-          Email
+          Correo electrónico
         </label>
         <input
           id="email"
           type="email"
           className={styles.input}
-          placeholder="your@email.com"
+          placeholder="tu@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -82,26 +82,25 @@ if (email.includes("@")) {
 
       <div className={styles.formGroup}>
         <label htmlFor="password" className={styles.label}>
-          Password
+          Contraseña
         </label>
         <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
 
-
       <div className={styles.forgotPassword}>
         <a href="#" onClick={(e) => e.preventDefault()}>
-          Forgot Password?
+          ¿Olvidaste tu contraseña?
         </a>
       </div>
 
       <button type="submit" className={`${styles.button} ${isLoading ? styles.loading : ""}`} disabled={isLoading}>
-        {isLoading ? "Signing in..." : "Sign In"}
+        {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
       </button>
 
       <div className={styles.switchView}>
-        Don't have an account?{" "}
+        ¿No tienes una cuenta?{" "}
         <button type="button" className={styles.switchButton} onClick={() => switchView("register")}>
-          Sign Up
+          Regístrate
         </button>
       </div>
     </form>
