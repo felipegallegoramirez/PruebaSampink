@@ -9,8 +9,10 @@ import FormError from "./form-error"
 import styles from "../../styles/auth.module.css"
 import { getStatus } from "@/services/table"
 import { login } from "@/services/user"
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
+  const router = useRouter()
   const { switchView } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -31,14 +33,15 @@ export default function LoginForm() {
 
 if (email.includes("@")) {
       let infor = {
-        email,
-        password,
+        'username':email,
+        'password':password,
       }
       try {
         const data = await login(infor)
-        window.location.reload()
-        localStorage.setItem("id", data.id)
+        localStorage.setItem("idUser", data.user_id)
+        router.push('/form')
       } catch (err: any) {
+        console.log(err)  
         if (err.response && err.response.status === 400) {
           const errorMessage = err.response.data.message || 
           "Registration failed. Please check your information and try again."
@@ -56,9 +59,7 @@ if (email.includes("@")) {
   }
 
   const consultelist = () =>{
-    getStatus('prueba').then((response) => {
-      console.log(response)
-    })
+
   }
 
   return (
@@ -86,7 +87,6 @@ if (email.includes("@")) {
         <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
 
-      <button className={styles.button} onClick={consultelist}>Consulte</button>
 
       <div className={styles.forgotPassword}>
         <a href="#" onClick={(e) => e.preventDefault()}>

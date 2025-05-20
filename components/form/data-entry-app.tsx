@@ -76,15 +76,21 @@ export default function IngresoDeDatosApp() {
       mostrarNotificacion("error", "Por favor, corrija los datos inválidos antes de enviar")
       return
     }
-
+    let x =[]
     // Aquí típicamente enviarías los datos a una API
-    let x = {
-      'doc':data[0].documento,
-      'typedoc':data[0].tipo,
-      'fechaE':data[0].fechaExpedicion,
+    for (let i = 0; i < data.length; i++) {
+       x.push({
+        'doc':data[i].documento,
+        'typedoc':data[i].tipo,
+        'fechaE':data[i].fechaExpedicion,
+      })
     }
-    postList(x).then((response) => {
-      localStorage.setItem("id", response.jobid)
+      let info = {
+        'user_id':localStorage.getItem("idUser"),
+        'checks':x
+      }
+    postList(info).then((response) => {
+      //localStorage.setItem("id", response.jobid)
       router.push('/list')
       mostrarNotificacion("success", "Datos enviados correctamente")
     })

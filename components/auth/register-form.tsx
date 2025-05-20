@@ -8,9 +8,10 @@ import PasswordInput from "./password-input"
 import FormError from "./form-error"
 import styles from "../../styles/auth.module.css"
 import { register } from "@/services/user"
-
+import { useRouter } from 'next/navigation'
 
 export default function RegisterForm() {
+  const router = useRouter()
   const { switchView } = useAuth()
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
@@ -44,14 +45,14 @@ export default function RegisterForm() {
 
     if (email.includes("@")) {
       let infor = {
-        fullName,
-        email,
-        password,
+//        'fullName':fullName,
+        'username':email,
+        'password':password,
       }
       try {
         const data = await register(infor)
-        localStorage.setItem("id", data.id)
-        window.location.reload() 
+        localStorage.setItem("idUser", data.user_id)
+        router.push('/list')
       } catch (err: any) {
         if (err.response && err.response.status === 400) {
           const errorMessage = err.response.data.message || 

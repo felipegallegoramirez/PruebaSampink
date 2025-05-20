@@ -8,34 +8,20 @@ const ReportsTable = ({ people, onRowClick }) => {
           <tr>
             <th>Nombre</th>
             <th>ID (Cédula)</th>
-            <th>Reportes Altos</th>
-            <th>Reportes Medios</th>
-            <th>Reportes Bajos</th>
-            <th>Crímenes (Europol)</th>
+            <th>Estado</th>
+            <th>Fecha</th>
           </tr>
         </thead>
         <tbody>
           {(people ?? []).map((person, index) => {
-            const highReportsCount = person?.dict_hallazgos?.altos?.length ?? 0;
-            const mediumReportsCount = person?.dict_hallazgos?.medios?.length ?? 0;
-            const lowReportsCount = person?.dict_hallazgos?.bajos?.length ?? 0;
-            const crimesList = person?.europol?.crimes ?? [];
             const key = person?.id ?? `person-${index}`;
 
             return (
-              <tr key={key} onClick={() => onRowClick(person)}>
-                <td>{person?.nombre ?? 'N/A'}</td>
-                <td>{person?.id ?? 'ID Desconocido'}</td>
-                <td className={highReportsCount > 0 ? "high-alert" : ""}>
-                  {highReportsCount}
-                </td>
-                <td className={mediumReportsCount > 0 ? "medium-alert" : ""}>
-                  {mediumReportsCount}
-                </td>
-                <td className={lowReportsCount > 0 ? "low-alert" : ""}>
-                  {lowReportsCount}
-                </td>
-                <td>{crimesList.join(", ")}</td>
+              <tr key={key} onClick={() => onRowClick(person?.id)}>
+                <td>{person?.name ?? 'N/A'}</td>
+                <td>{person?.document ?? 'ID Desconocido'}</td>
+                <td>{person?.status ?? 'Estado Desconocido'}</td>
+                <td>{person?.timestamp ?? 'Tiempo Desconocido'}</td>
               </tr>
             );
           })}
