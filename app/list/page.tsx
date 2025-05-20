@@ -5,6 +5,7 @@ import PersonModal from "@/components/list/person-modal"
 import ReportsTable from "@/components/list/reports-table"
 import FilterPanel from "@/components/list/filter-panel"
 import "./styles.css"
+import LayoutClient from "../LayoutClient"
 // Asegúrate de que estas funciones devuelvan los datos y el estado esperados
 import { getStatus, getData, getPerson } from "@/services/table"
 
@@ -61,36 +62,36 @@ export default function Home() {
         console.log("Datos recibidos:", data); // data ahora contendrá data.checks
         // Verificar si data.checks es un array y usarlo para peopleDataState
         if (data && Array.isArray(data.checks)) {
-            console.log("data.checks recibidos:", data.checks.length, "elementos");
-            // Establecemos peopleDataState directamente con el array data.checks
-            // Asumimos que cada objeto en data.checks tiene al menos 'document', 'timestamp', 'status'
-            // y los campos necesarios para los filtros ('id', 'nombre', 'dict_hallazgos', 'europol')
-            setPeopleDataState(data.checks);
+          console.log("data.checks recibidos:", data.checks.length, "elementos");
+          // Establecemos peopleDataState directamente con el array data.checks
+          // Asumimos que cada objeto en data.checks tiene al menos 'document', 'timestamp', 'status'
+          // y los campos necesarios para los filtros ('id', 'nombre', 'dict_hallazgos', 'europol')
+          setPeopleDataState(data.checks);
 
-            // También puedes guardar los resultados crudos si los necesitas
-            setResults(data.checks);
+          // También puedes guardar los resultados crudos si los necesitas
+          setResults(data.checks);
 
-            // Opcional: Recolectar todos los crímenes únicos para el filtro avanzado
-            const uniqueCrimes = new Set();
-            data.checks.forEach(person => {
-                if (person.europol && Array.isArray(person.europol.crimes)) {
-                    person.europol.crimes.forEach(crime => {
-                        if (crime) uniqueCrimes.add(crime);
-                    });
-                }
-            });
-            setAllCrimes(Array.from(uniqueCrimes));
+          // Opcional: Recolectar todos los crímenes únicos para el filtro avanzado
+          const uniqueCrimes = new Set();
+          data.checks.forEach(person => {
+            if (person.europol && Array.isArray(person.europol.crimes)) {
+              person.europol.crimes.forEach(crime => {
+                if (crime) uniqueCrimes.add(crime);
+              });
+            }
+          });
+          setAllCrimes(Array.from(uniqueCrimes));
 
-            setStatus("finalizado"); // Establecer el estado a finalizado
+          setStatus("finalizado"); // Establecer el estado a finalizado
 
         } else {
-            // Manejar el caso en que data o data.checks no sean lo esperado
-            console.error("Error: Los datos de los checks no tienen el formato esperado.", data);
-            setError("Error al procesar los datos de los checks.");
-            setStatus("error"); // Establecer el estado a error
-            setPeopleDataState([]); // Asegurarse de que el estado es un array vacío
+          // Manejar el caso en que data o data.checks no sean lo esperado
+          console.error("Error: Los datos de los checks no tienen el formato esperado.", data);
+          setError("Error al procesar los datos de los checks.");
+          setStatus("error"); // Establecer el estado a error
+          setPeopleDataState([]); // Asegurarse de que el estado es un array vacío
         }
-         // --- FIN MODIFICACIÓN ---
+        // --- FIN MODIFICACIÓN ---
 
       }
       // Si el estado es inesperado
@@ -125,8 +126,8 @@ export default function Home() {
           // para evitar errores si las propiedades no existen
           (person?.nombre?.toLowerCase() ?? "").includes(term) ||
           (person?.id?.toLowerCase() ?? "").includes(term)
-          // Si los checks tienen 'document', podrías querer buscar también por ahí:
-          // (person?.document?.toLowerCase() ?? "").includes(term)
+        // Si los checks tienen 'document', podrías querer buscar también por ahí:
+        // (person?.document?.toLowerCase() ?? "").includes(term)
       )
     }
 
@@ -162,7 +163,7 @@ export default function Home() {
           // Verificar si la persona tiene un array de crímenes y si alguno de ellos
           // está incluido en los crímenes específicos seleccionados
           (person?.europol?.crimes ?? []).some((crime) =>
-              crime && advancedFilters.specificCrimes.includes(crime)
+            crime && advancedFilters.specificCrimes.includes(crime)
           )
         )
       }
@@ -176,14 +177,14 @@ export default function Home() {
     // Aquí asumimos que 'id' es suficiente para obtener los datos completos de una persona
     // Si los objetos en peopleDataState ya tienen todos los datos, podrías buscarlo ahí en lugar de llamar a getPerson
     try {
-        console.log("id:", id)
-        const person = await getPerson(id); // Llama a tu servicio para obtener datos detallados de la persona
-        console.log("person:", person)
-        setSelectedPerson(person)
-        setIsModalOpen(true)
+      console.log("id:", id)
+      const person = await getPerson(id); // Llama a tu servicio para obtener datos detallados de la persona
+      console.log("person:", person)
+      setSelectedPerson(person)
+      setIsModalOpen(true)
     } catch (error) {
-        console.error("Error al obtener datos de la persona:", error);
-        // Opcional: Mostrar un mensaje de error al usuario
+      console.error("Error al obtener datos de la persona:", error);
+      // Opcional: Mostrar un mensaje de error al usuario
     }
   }
 
@@ -204,78 +205,78 @@ export default function Home() {
   }
 
   return (
-    <main className="app-container">
-      <div className="app-header">
-        <h1>Entity Whatcher</h1>
-        <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
-      </div>
-
-      <div className="content-container">
-        <div className="filters-container">
-          <div className="basic-filters">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Buscar por Nombre o ID..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-            </div>
-
-            <div className="category-filter">
-              <select
-                value={categoryFilter}
-                onChange={(e) => setCategoryFilter(e.target.value)}
-                className="category-select"
-              >
-                <option value="all">Todas las Categorías</option>
-                <option value="highReports">Reportes Altos {'>'} 0</option>
-                <option value="mediumReports">Reportes Medios {'>'} 0</option>
-                <option value="lowReports">Reportes Bajos {'>'} 0</option>
-                <option value="crimes">Con Crímenes</option>
-              </select>
-            </div>
-
-            <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
-              {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
-            </button>
+    <div>
+      <LayoutClient>
+        <main className="app-container">
+          <div className="app-header text-left">
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Entity Watcher</h1>
+            <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
           </div>
 
-          {/* Renderizar el panel de filtros avanzados si está visible */}
-          {showAdvancedFilters && (
-            <FilterPanel
-              filters={advancedFilters}
-              onFilterChange={handleAdvancedFilterChange}
-              availableCrimes={allCrimes} // Pasar los crímenes disponibles
-            />
-          )}
-        </div>
+          <div className="content-container">
+            <div className="filters-container">
+              <div className="basic-filters">
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Buscar por Nombre o ID..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                  />
+                </div>
 
-        {/* Mostrar información sobre el estado de la carga y errores */}
-        {status === "procesando" && <div className="loading-message">Cargando datos...</div>}
-        {status === "error" && error && <div className="error-message">{error}</div>}
-        {status === "finalizado" && (
-            <div className="results-info">
-                Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
+                <div className="category-filter">
+                  <select
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                    className="category-select"
+                  >
+                    <option value="all">Todas las Categorías</option>
+                    <option value="highReports">Reportes Altos {'>'} 0</option>
+                    <option value="mediumReports">Reportes Medios {'>'} 0</option>
+                    <option value="lowReports">Reportes Bajos {'>'} 0</option>
+                    <option value="crimes">Con Crímenes</option>
+                  </select>
+                </div>
+
+                <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
+                  {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
+                </button>
+              </div>
+
+              {showAdvancedFilters && (
+                <FilterPanel
+                  filters={advancedFilters}
+                  onFilterChange={handleAdvancedFilterChange}
+                  availableCrimes={allCrimes}
+                />
+              )}
             </div>
-        )}
 
+            {/* Mostrar estado de carga y errores */}
+            {status === "procesando" && <div className="loading-message">Cargando datos...</div>}
+            {status === "error" && error && <div className="error-message">{error}</div>}
+            {status === "finalizado" && (
+              <div className="results-info">
+                Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
+              </div>
+            )}
 
-        {/* Mostrar la tabla de reportes si los datos han finalizado de cargar o si hay datos filtrados */}
-        {status === "finalizado" && peopleDataState.length > 0 ? (
-             <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />
-        ) : status === "finalizado" && peopleDataState.length === 0 ? (
-             <div className="no-data-message">No se encontraron datos para mostrar.</div>
-        ) : null}
+            {/* Tabla o mensaje de no datos */}
+            {status === "finalizado" && peopleDataState.length > 0 ? (
+              <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />
+            ) : status === "finalizado" && peopleDataState.length === 0 ? (
+              <div className="no-data-message">No se encontraron datos para mostrar.</div>
+            ) : null}
+          </div>
 
-
-      </div>
-
-      {/* Renderizar el modal si está abierto y hay una persona seleccionada */}
-      {isModalOpen && selectedPerson && (
-        <PersonModal person={selectedPerson} onClose={closeModal} />
-      )}
-    </main>
-  )
+          {/* Modal */}
+          {isModalOpen && selectedPerson && (
+            <PersonModal person={selectedPerson} onClose={closeModal} />
+          )}
+        </main>
+      </LayoutClient>
+    </div>
+  );
 }

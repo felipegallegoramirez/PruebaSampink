@@ -96,6 +96,11 @@ body {
 
 /* styles.css or your relevant stylesheet */
 
+.person-report-header {
+  margin: 40px auto;
+  max-width: 950px;
+}
+
 .person-report-container {
   max-width: 950px; /* Adjust maximum width as needed */
   margin: 40px auto; /* Adds space top/bottom, centers horizontally */
