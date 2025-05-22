@@ -1,13 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-
 import PersonReport from "@/components/listpdf/person-modal"
-
 import "./styles.css"
-
 import { getStatus, getData } from "@/services/table"
 import LayoutClient from "../LayoutClient"
+import Swal from 'sweetalert2'
+const html2pdf = require('html2pdf.js')
 
 // --- Datos de Ejemplo ---
 // (Coloca aquí el objeto 'examplePersonData' completo que tenías)
@@ -235,48 +234,104 @@ export default function Home() {
 
   // --- FUNCIÓN PARA DESCARGAR PDF ---
   const handleDownloadPdf = () => {
-    // Log para verificar que la función se llama
-    console.log(">>> handleDownloadPdf llamada en Home.js");
-    alert("Descargando PDF...");
+    const element = document.getElementById('pdf-content')
 
-    // Verifica si hay errores de JavaScript pendientes en la consola
-    console.log("Verifica la consola del navegador por errores rojos antes de este mensaje.");
+    if (!element) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se encontró el contenido para el PDF.',
+      });
+      return;
+    }
 
-    // Llama a la función de impresión del navegador
-    window.print();
-    console.log("window.print() ejecutado.");
+    // Paso 1: Mostrar confirmación
+    Swal.fire({
+      title: '¿Descargar PDF?',
+      text: 'Esto generará un archivo con la información completa.',
+      icon: 'question',
+      confirmButtonText: 'Descargar',
+      confirmButtonColor: '#565eb4',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Paso 2: Mostrar carga mientras se genera
+        Swal.fire({
+          title: 'Generando PDF...',
+          text: 'Esto puede tardar unos segundos.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        const opt = {
+          margin: 0.5,
+          filename: 'sampink-demo.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf()
+          .from(element)
+          .set(opt)
+          .save()
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'PDF descargado',
+              confirmButtonColor: '#565eb4',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al generar PDF',
+              text: 'Revisa la consola para más información.'
+            });
+          });
+      }
+    });
   };
 
   // --- Renderizado del Componente ---
   return (
-    <div>
+    <div id="pdf-content">
       <LayoutClient children={undefined}></LayoutClient>
-      <main className="report-page-container">
-        <div className="person-report-header">
-          <h1 className="text-3xl font-bold mb-6 text-gray-800 ">
-            Reporte de Persona
-          </h1>
-        </div>
+      <div className="min-h-screen p-4 md:p-8 bg-gray-50">
+        <main className="report-page-container">
+          <div className="person-report-header">
+            <h1 className="text-3xl font-bold mb-6 text-gray-800 ">
+              Reporte de Persona
+            </h1>
+          </div>
 
-        {/* Mensajes de Estado */}
-        {status === 'loading' && <p className="status-message loading">Cargando datos del reporte...</p>}
-        {status === 'procesando' && <p className="status-message processing">Procesando reporte...</p>}
-        {error && <p className="status-message error">Error: {error}</p>}
+          {/* Mensajes de Estado */}
+          {status === 'loading' && <p className="status-message loading">Cargando datos del reporte...</p>}
+          {status === 'procesando' && <p className="status-message processing">Procesando reporte...</p>}
+          {error && <p className="status-message error">Error: {error}</p>}
 
-        {/* Renderiza PersonReport SI hay datos Y el estado es 'finalizado' */}
-        {selectedPerson && status === 'finalizado' && (
-          <PersonReport
-            person={selectedPerson}
-            onDownloadPdf={handleDownloadPdf} // Pasa la función como prop
-          />
-        )}
+          {/* Renderiza PersonReport SI hay datos Y el estado es 'finalizado' */}
+          {selectedPerson && status === 'finalizado' && (
+            <PersonReport
+              person={selectedPerson}
+              onDownloadPdf={handleDownloadPdf} // Pasa la función como prop
+            />
+          )}
 
-        {/* Mensaje si no hay datos y no está cargando/error */}
-        {!selectedPerson && status === 'idle' && (
-          <p className="status-message">Esperando datos...</p>
-        )}
+          {/* Mensaje si no hay datos y no está cargando/error */}
+          {!selectedPerson && status === 'idle' && (
+            <p className="status-message">Esperando datos...</p>
+          )}
 
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
