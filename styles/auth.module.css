@@ -18,13 +18,13 @@
   --text-secondary: #666666;
   --input-bg: #f5f7fa;
   --input-border: #e1e4e8;
-  --input-focus: #1e40af;
-  --button-bg: #1e40af;
-  --button-hover: #1e40af;
+  --input-focus: #565eb4;
+  --button-bg: #565eb4;
+  --button-hover: #565eb4;
   --button-text: #ffffff;
   --error-bg: #fee2e2;
   --error-text: #ef4444;
-  --link-color: #1e40af;
+  --link-color: #565eb4;
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
@@ -153,7 +153,7 @@
 
 .button {
   height: 44px;
-  background-color: #1e40af !important; 
+  background-color: #565eb4 !important; 
   color: #f5f7fa !important;
   border: none;
   border-radius: 8px;

@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   font-family: 'Inter', sans-serif;
@@ -6,7 +9,7 @@ body {
 
 .logo {
   margin: 20px auto;
-  height: 50px;
+  height: 80px;
   width: auto;
   position: relative;
   z-index: 99;
@@ -57,7 +60,7 @@ body {
 }
 
 .nav-superior > a:hover {
-  background-color: var(--c1, #3a3a88);
+  background-color: var(--c1, #565eb4);
   color: white;
   transform: scale(1.02);
 }
