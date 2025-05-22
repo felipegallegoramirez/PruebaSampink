@@ -12,6 +12,7 @@ import { login } from "@/services/user"
 import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
+  const router = useRouter()
   const { switchView } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -37,10 +38,10 @@ if (email.includes("@")) {
       }
       try {
         const data = await login(infor)
-        localStorage.setItem("idUser", data.id)
-        const router = useRouter()
-        router.push('/list')
+        localStorage.setItem("idUser", data.user_id)
+        router.push('/form')
       } catch (err: any) {
+        console.log(err)  
         if (err.response && err.response.status === 400) {
           const errorMessage = err.response.data.message || 
           "Registration failed. Please check your information and try again."
@@ -58,9 +59,7 @@ if (email.includes("@")) {
   }
 
   const consultelist = () =>{
-    getStatus('prueba').then((response) => {
-      console.log(response)
-    })
+
   }
 
   return (
@@ -69,13 +68,13 @@ if (email.includes("@")) {
 
       <div className={styles.formGroup}>
         <label htmlFor="email" className={styles.label}>
-          Email
+          Correo electrónico
         </label>
         <input
           id="email"
           type="email"
           className={styles.input}
-          placeholder="your@email.com"
+          placeholder="tu@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -83,27 +82,25 @@ if (email.includes("@")) {
 
       <div className={styles.formGroup}>
         <label htmlFor="password" className={styles.label}>
-          Password
+          Contraseña
         </label>
         <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
 
-      <button className={styles.button} onClick={consultelist}>Consulte</button>
-
       <div className={styles.forgotPassword}>
         <a href="#" onClick={(e) => e.preventDefault()}>
-          Forgot Password?
+          ¿Olvidaste tu contraseña?
         </a>
       </div>
 
       <button type="submit" className={`${styles.button} ${isLoading ? styles.loading : ""}`} disabled={isLoading}>
-        {isLoading ? "Signing in..." : "Sign In"}
+        {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
       </button>
 
       <div className={styles.switchView}>
-        Don't have an account?{" "}
+        ¿No tienes una cuenta?{" "}
         <button type="button" className={styles.switchButton} onClick={() => switchView("register")}>
-          Sign Up
+          Regístrate
         </button>
       </div>
     </form>

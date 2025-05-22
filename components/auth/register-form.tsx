@@ -11,6 +11,7 @@ import { register } from "@/services/user"
 import { useRouter } from 'next/navigation'
 
 export default function RegisterForm() {
+  const router = useRouter()
   const { switchView } = useAuth()
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
@@ -44,14 +45,13 @@ export default function RegisterForm() {
 
     if (email.includes("@")) {
       let infor = {
-        'fullName':fullName,
+//        'fullName':fullName,
         'username':email,
         'password':password,
       }
       try {
         const data = await register(infor)
-        localStorage.setItem("idUser", data.id)
-        const router = useRouter()
+        localStorage.setItem("idUser", data.user_id)
         router.push('/list')
       } catch (err: any) {
         if (err.response && err.response.status === 400) {

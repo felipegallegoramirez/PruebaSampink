@@ -14,7 +14,7 @@ const httpOptions = {
 };
 
 export const login= async (data: any): Promise<any> => {
-  const response = await axios.post<any>(`${API_URL}/getUserId?${API_TOKEN}`, data, httpOptions);
+  const response = await axios.post<any>(`${API_URL}/login?${API_TOKEN}`, data, httpOptions);
   return response.data;
 };
 
