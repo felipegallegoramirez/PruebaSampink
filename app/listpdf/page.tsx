@@ -6,7 +6,6 @@ import "./styles.css"
 import { getStatus, getData } from "@/services/table"
 import LayoutClient from "../LayoutClient"
 import Swal from 'sweetalert2'
-const html2pdf = require('html2pdf.js')
 
 // --- Datos de Ejemplo ---
 // (Coloca aquí el objeto 'examplePersonData' completo que tenías)
@@ -233,7 +232,7 @@ export default function Home() {
 
 
   // --- FUNCIÓN PARA DESCARGAR PDF ---
-  const handleDownloadPdf = () => {
+  const handleDownloadPdf = async () => {
     const element = document.getElementById('pdf-content')
 
     if (!element) {
@@ -254,7 +253,7 @@ export default function Home() {
       confirmButtonColor: '#565eb4',
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         // Paso 2: Mostrar carga mientras se genera
         Swal.fire({
@@ -274,6 +273,9 @@ export default function Home() {
           html2canvas: { scale: 2 },
           jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
+
+        // ✅ Importa html2pdf.js dinámicamente solo en el cliente
+        const html2pdf = (await import('html2pdf.js')).default;
 
         html2pdf()
           .from(element)
