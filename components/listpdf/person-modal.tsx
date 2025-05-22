@@ -76,21 +76,7 @@ const PersonReport = ({ person, onDownloadPdf }) => {
 
           <h3>Información General</h3>
 
-          <CollapsibleSection title="Información PEP" defaultOpen={true}>
-            {person?.cidob ? (
-              <div className="info-grid">
-                <div className="info-item"> <span className="info-label">Alias:</span> <span className="info-value">{person.cidob.Alias ?? '--'}</span> </div>
-                <div className="info-item"> <span className="info-label">Cargo:</span> <span className="info-value">{person.cidob.Cargo ?? '--'}</span> </div>
-                <div className="info-item"> <span className="info-label">Mandato:</span> <span className="info-value">{person.cidob.Mandato ?? '--'}</span> </div>
-                <div className="info-item"> <span className="info-label">Nacimiento:</span> <span className="info-value">{person.cidob.Nacimiento ?? '--'}</span> </div>
-                <div className="info-item"> <span className="info-label">País:</span> <span className="info-value">{person.cidob.Pais ?? '--'}</span> </div>
-                <div className="info-item"> <span className="info-label">Partido político:</span> <span className="info-value">{person.cidob['Partido político'] ?? '--'}</span> </div>
-                <div className="info-item full-width"> <span className="info-label">Info Completa:</span> <span className="info-value">{person.cidob.Informacion_completa ? <a href={person.cidob.Informacion_completa} target="_blank" rel="noopener noreferrer">Enlace</a> : '--'}</span> </div>
-              </div>
-            ) : <p className="no-findings">No hay información de CIDOB disponible.</p>}
-          </CollapsibleSection>
-
-          <CollapsibleSection title="Identificación y Datos Personales" defaultOpen={true}>
+                    <CollapsibleSection title="Identificación y Datos Personales" defaultOpen={true}>
             <div className="info-grid">
               <div className="info-item"> <span className="info-label">ID:</span> <span className="info-value">{person?.id ?? '--'}</span> </div>
               <div className="info-item"> <span className="info-label">Nombre Completo:</span> <span className="info-value">{person?.nombre ?? '--'}</span> </div>
@@ -112,6 +98,20 @@ const PersonReport = ({ person, onDownloadPdf }) => {
                 </div>
               </>
             )}
+          </CollapsibleSection>
+
+          <CollapsibleSection title="Información PEP" defaultOpen={true}>
+            {person?.cidob ? (
+              <div className="info-grid">
+                <div className="info-item"> <span className="info-label">Alias:</span> <span className="info-value">{person.cidob.Alias ?? '--'}</span> </div>
+                <div className="info-item"> <span className="info-label">Cargo:</span> <span className="info-value">{person.cidob.Cargo ?? '--'}</span> </div>
+                <div className="info-item"> <span className="info-label">Mandato:</span> <span className="info-value">{person.cidob.Mandato ?? '--'}</span> </div>
+                <div className="info-item"> <span className="info-label">Nacimiento:</span> <span className="info-value">{person.cidob.Nacimiento ?? '--'}</span> </div>
+                <div className="info-item"> <span className="info-label">País:</span> <span className="info-value">{person.cidob.Pais ?? '--'}</span> </div>
+                <div className="info-item"> <span className="info-label">Partido político:</span> <span className="info-value">{person.cidob['Partido político'] ?? '--'}</span> </div>
+                <div className="info-item full-width"> <span className="info-label">Info Completa:</span> <span className="info-value">{person.cidob.Informacion_completa ? <a href={person.cidob.Informacion_completa} target="_blank" rel="noopener noreferrer">Enlace</a> : '--'}</span> </div>
+              </div>
+            ) : <p className="no-findings">No hay información de CIDOB disponible.</p>}
           </CollapsibleSection>
 
           <CollapsibleSection title="Información Profesional" defaultOpen={true}>
