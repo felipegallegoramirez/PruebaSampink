@@ -24,9 +24,11 @@ export default function AuthLayout() {
       <div className={`${styles.container} ${styles[theme]}`}>
         <div className={styles.card}>
           <div className={styles.header}>
-            <h1 className={styles.title}>{view === "login" ? "Welcome Back" : "Create Account"}</h1>
+            <h1 className={styles.title}>{view === "login" ? "Bienvenido de nuevo" : "Crear cuenta"}</h1>
             <p className={styles.subtitle}>
-              {view === "login" ? "Enter your credentials to access your account" : "Fill in your details to get started"}
+              {view === "login"
+                ? "Ingresa tus credenciales para acceder a tu cuenta"
+                : "Completa tus datos para comenzar"}
             </p>
           </div>
           <div className={styles.formContainer}>{view === "login" ? <LoginForm /> : <RegisterForm />}</div>

@@ -17,6 +17,8 @@ interface DataTableProps {
   isLoading: boolean
 }
 
+const tipoOpciones = ["CC", "CE", "INT", "NIT", "PP", "PPT", "NOMBRE"]
+
 export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete, isLoading }: DataTableProps) {
   const [selectedRows, setSelectedRows] = useState<string[]>([])
   const [editingCell, setEditingCell] = useState<{
@@ -136,7 +138,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                 onCheckedChange={toggleAllRows}
               />
             </th>
-            <th className="p-2 text-left">Documento</th>
+            <th className="p-2 text-left">ID</th>
             <th className="p-2 text-left">Fecha de Expedición</th>
             <th className="p-2 text-left">Tipo de documento</th>
             <th className="p-2 text-left w-10">Acciones</th>
@@ -166,7 +168,7 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.documento || <span className="text-gray-400">Ingresar Documento</span>}
+                    {row.documento || <span className="text-gray-400">Ingresar ID</span>}
                   </div>
                 )}
               </td>
@@ -182,20 +184,27 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
                   />
                 ) : (
                   <div className="min-h-[32px] flex items-center">
-                    {row.fechaExpedicion || <span className="text-gray-400">Ingresar fecha</span>}
+                    {row.fechaExpedicion || <span className="text-gray-400">DD/MM/AAAA</span>}
                   </div>
                 )}
               </td>
               <td className="p-2" onClick={() => handleCellClick(row.id, "tipo")}>
                 {editingCell?.rowId === row.id && editingCell?.field === "tipo" ? (
-                  <Input
-                    ref={inputRef}
+                  <select
+                    ref={inputRef as React.RefObject<HTMLSelectElement>}
                     value={row.tipo}
-                    onChange={(e) => handleCellChange(e, row.id, "tipo")}
+                    onChange={e => {
+                      onUpdateRow({ ...row, tipo: e.target.value })
+                      setEditingCell(null)
+                    }}
                     onBlur={handleCellBlur}
-                    onKeyDown={(e) => handleKeyDown(e, rowIndex, 2)}
-                    className="p-1 h-8"
-                  />
+                    className="p-1 h-8 border rounded w-full"
+                  >
+                    <option value="">Seleccione</option>
+                    {tipoOpciones.map(opcion => (
+                      <option key={opcion} value={opcion}>{opcion}</option>
+                    ))}
+                  </select>
                 ) : (
                   <div className="min-h-[32px] flex items-center">
                     {row.tipo || <span className="text-gray-400">Ingresar tipo de documento</span>}

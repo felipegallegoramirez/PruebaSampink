@@ -26,6 +26,7 @@ export default function IngresoDeDatosApp() {
     message: string
   } | null>(null)
   const [cargando, setCargando] = useState(false)
+  const [consentimiento, setConsentimiento] = useState(false)
 
   const manejarDatosDelArchivo = (datosDelArchivo: DataRow[]) => {
     setData(datosDelArchivo)
@@ -100,24 +101,13 @@ export default function IngresoDeDatosApp() {
 
   return (
     <div className="space-y-6">
-      {notificacion && (
-        <Alert variant={notificacion.type === "error" ? "destructive" : "default"} className="animate-in fade-in">
-          {notificacion.type === "error" ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-          <AlertDescription>{notificacion.message}</AlertDescription>
-        </Alert>
-      )}
-
-      <div className="bg-white p-6 rounded-lg shadow-sm border">
-        <h2 className="text-xl font-semibold mb-4">Consulta en bloque</h2>
-        <FileUpload onDataLoaded={manejarDatosDelArchivo} onError={manejarErrorDelArchivo} setIsLoading={setCargando} />
-      </div>
-
+      {/* Manual Entry Section First */}
       <div className="bg-white p-6 rounded-lg shadow-sm border">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Consulta en bloque</h2>
-          <Button className={styles.button} onClick={manejarAgregarFila}>Agregar Nueva Fila</Button>
+          <h2 className="text-2xl font-bold text-primary">Consultas</h2>
+          <Button className={styles.button} onClick={manejarAgregarFila}>Agregar Nueva Consulta</Button>
         </div>
-
+        <p className="mb-4 text-gray-600">Agrega tus datos manualmente en la tabla o utiliza la opción de importar si tienes muchos registros.</p>
         <DataTable
           data={data}
           onUpdateRow={manejarActualizarFila}
@@ -125,12 +115,43 @@ export default function IngresoDeDatosApp() {
           onBulkDelete={manejarEliminacionMasiva}
           isLoading={cargando}
         />
-
         {data.length > 0 && (
-          <div className="mt-6 flex justify-end">
-            <Button className={styles.button} onClick={manejarEnvio}>Enviar Datos</Button>
+          <div className="mt-6 flex flex-col items-end gap-2">
+            <div className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                id="consentimiento"
+                checked={consentimiento}
+                onChange={e => setConsentimiento(e.target.checked)}
+                className="mr-2"
+              />
+              <label htmlFor="consentimiento" className="text-sm select-none">
+                Cuento con autorización del titular para esta consulta.
+              </label>
+            </div>
+            <Button
+              className={styles.button}
+              onClick={manejarEnvio}
+              disabled={!consentimiento}
+            >
+              Enviar Datos
+            </Button>
           </div>
         )}
+      </div>
+
+      {/* Alert Notification in the middle */}
+      {notificacion && (
+        <Alert variant={notificacion.type === "error" ? "destructive" : "default"} className="animate-in fade-in">
+          {notificacion.type === "error" ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+          <AlertDescription>{notificacion.message}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Import Section Second */}
+      <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <h2 className="text-xl font-semibold mb-4">Importar Base de Datos</h2>
+        <FileUpload onDataLoaded={manejarDatosDelArchivo} onError={manejarErrorDelArchivo} setIsLoading={setCargando} />
       </div>
     </div>
   )
