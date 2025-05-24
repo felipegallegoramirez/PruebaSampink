@@ -33,17 +33,14 @@ export default function LayoutClient({
           alt="Logo"
         />
         <div className="nav-superior">
-          <Link href="/auth" onClick={toggleHidden}>
-            <div className="nav-item"><p>Login</p></div>
+          <Link href="/login" onClick={toggleHidden}>
+            <div className="nav-item"><p>Iniciar Sesión</p></div>
           </Link>
-          <Link href="/form" onClick={toggleHidden}>
-            <div className="nav-item"><p>Form</p></div>
+          <Link href="/consultar" onClick={toggleHidden}>
+            <div className="nav-item"><p>Consultar</p></div>
           </Link>
-          <Link href="/list" onClick={toggleHidden}>
-            <div className="nav-item"><p>List</p></div>
-          </Link>
-          <Link href="/listpdf" onClick={toggleHidden}>
-            <div className="nav-item"><p>ListPDF</p></div>
+          <Link href="/historico" onClick={toggleHidden}>
+            <div className="nav-item"><p>Histórico</p></div>
           </Link>
         </div>
       </nav>

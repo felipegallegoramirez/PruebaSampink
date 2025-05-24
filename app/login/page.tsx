@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { AuthProvider } from "@/components/auth/auth-context"
-import AuthLayout from "@/components/auth/auth-layout"
+import { AuthProvider } from "@/components/login/auth-context"
+import AuthLayout from "@/components/login/auth-layout"
 import Dashboard from "@/components/dashboard"
 import "./styles.css"
 

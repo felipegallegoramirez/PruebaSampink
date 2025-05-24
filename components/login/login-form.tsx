@@ -31,20 +31,20 @@ export default function LoginForm() {
 
     setIsLoading(true)
 
-if (email.includes("@")) {
+    if (email.includes("@")) {
       let infor = {
-        'username':email,
-        'password':password,
+        'username': email,
+        'password': password,
       }
       try {
         const data = await login(infor)
         localStorage.setItem("idUser", data.user_id)
-        router.push('/form')
+        router.push('/consultar')
       } catch (err: any) {
-        console.log(err)  
+        console.log(err)
         if (err.response && err.response.status === 400) {
-          const errorMessage = err.response.data.message || 
-          "Registration failed. Please check your information and try again."
+          const errorMessage = err.response.data.message ||
+            "Registration failed. Please check your information and try again."
           setError(errorMessage)
         } else {
           setError("An unexpected error occurred. Please try again.")
@@ -55,10 +55,10 @@ if (email.includes("@")) {
     } else {
       setError("Please enter a valid email")
     }
-      setIsLoading(false)
+    setIsLoading(false)
   }
 
-  const consultelist = () =>{
+  const consultelist = () => {
 
   }
 

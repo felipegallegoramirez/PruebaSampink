@@ -10,6 +10,7 @@ import styles from "../../styles/auth.module.css"
 import { postList } from "@/services/table"
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import Swal from "sweetalert2"
 
 export type DataRow = {
   id: string
@@ -77,24 +78,42 @@ export default function IngresoDeDatosApp() {
       mostrarNotificacion("error", "Por favor, corrija los datos inválidos antes de enviar")
       return
     }
-    let x =[]
+    let x = []
     // Aquí típicamente enviarías los datos a una API
     for (let i = 0; i < data.length; i++) {
-       x.push({
-        'doc':data[i].documento,
-        'typedoc':data[i].tipo,
-        'fechaE':data[i].fechaExpedicion,
+      x.push({
+        'doc': data[i].documento,
+        'typedoc': data[i].tipo,
+        'fechaE': data[i].fechaExpedicion,
       })
     }
-      let info = {
-        'user_id':localStorage.getItem("idUser"),
-        'checks':x
-      }
-    postList(info).then((response) => {
-      //localStorage.setItem("id", response.jobid)
-      router.push('/list')
-      mostrarNotificacion("success", "Datos enviados correctamente")
-    })
+    let info = {
+      'user_id': localStorage.getItem("idUser"),
+      'checks': x
+    }
+    postList(info)
+      .then((response) => {
+        // localStorage.setItem("id", response.jobid)
+        router.push('/historico')
+        mostrarNotificacion("success", "Datos enviados correctamente")
+      })
+      .catch((error) => {
+        if (error?.response?.status === 400) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Sin créditos disponibles',
+            text: 'No se poseen créditos para realizar la consulta.',
+            confirmButtonColor: '#565eb4'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error inesperado',
+            text: 'Ocurrió un error al enviar los datos. Intenta nuevamente más tarde.',
+            confirmButtonColor: '#565eb4'
+          });
+        }
+      });
 
 
   }

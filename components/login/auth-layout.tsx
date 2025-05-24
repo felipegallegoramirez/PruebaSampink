@@ -8,7 +8,6 @@ import styles from "../../styles/auth.module.css"
 import Image from 'next/image'
 import { useState } from 'react'
 import logo from '@/public/logo.png'
-import LayoutClient from "@/app/LayoutClient"
 
 export default function AuthLayout() {
   const { view, theme } = useAuth()
@@ -20,7 +19,6 @@ export default function AuthLayout() {
 
   return (
     <div>
-      <LayoutClient children={undefined}></LayoutClient>
       <div className={`${styles.container} ${styles[theme]}`}>
         <div className={styles.card}>
           <div className={styles.header}>
@@ -32,7 +30,6 @@ export default function AuthLayout() {
             </p>
           </div>
           <div className={styles.formContainer}>{view === "login" ? <LoginForm /> : <RegisterForm />}</div>
-          <ThemeToggle />
         </div>
       </div>
     </div>
