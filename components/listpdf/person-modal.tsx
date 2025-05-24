@@ -3,6 +3,8 @@
 import { useRef } from "react"
 import CollapsibleSection from "./collapsible-section"
 import styles from './person-modal.module.css'
+import Image from 'next/image'
+import logo from '@/public/logo.png'
 
 // --- Helper Functions ---
 const displayProfessions = (profesionData) => {
@@ -64,6 +66,7 @@ const PersonReport = ({ person, onDownloadPdf }) => {
   return (
     <div className={styles.localH3}>
       <div className="person-report-container" ref={reportContainerRef} id="person-report-content">
+        <Image src={logo} alt={"Logo Sampink"} height={100} className="mx-auto"></Image>
         <div className="report-header">
           <h2>{person?.nombre ?? 'Nombre no disponible'}</h2>
           <button onClick={onDownloadPdf} className="download-pdf-button">
@@ -76,7 +79,7 @@ const PersonReport = ({ person, onDownloadPdf }) => {
 
           <h3>Información General</h3>
 
-                    <CollapsibleSection title="Identificación y Datos Personales" defaultOpen={true}>
+          <CollapsibleSection title="Identificación y Datos Personales" defaultOpen={true}>
             <div className="info-grid">
               <div className="info-item"> <span className="info-label">ID:</span> <span className="info-value">{person?.id ?? '--'}</span> </div>
               <div className="info-item"> <span className="info-label">Nombre Completo:</span> <span className="info-value">{person?.nombre ?? '--'}</span> </div>
@@ -664,7 +667,7 @@ const PersonReport = ({ person, onDownloadPdf }) => {
 
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

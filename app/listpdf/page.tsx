@@ -1,12 +1,10 @@
-"use client"
+'use client'
 
 import { useState, useEffect } from "react"
 import PersonReport from "@/components/listpdf/person-modal"
 import "./styles.css"
 import { getStatus, getData } from "@/services/table"
-import LayoutClient from "../LayoutClient"
 import Swal from 'sweetalert2'
-const html2pdf = require('html2pdf.js')
 
 // --- Datos de Ejemplo ---
 // (Coloca aquí el objeto 'examplePersonData' completo que tenías)
@@ -233,7 +231,10 @@ export default function Home() {
 
 
   // --- FUNCIÓN PARA DESCARGAR PDF ---
-  const handleDownloadPdf = () => {
+  const handleDownloadPdf = async () => {
+    const html2pdf = (await import('html2pdf.js')).default;
+
+
     const element = document.getElementById('pdf-content')
 
     if (!element) {
@@ -303,7 +304,6 @@ export default function Home() {
   // --- Renderizado del Componente ---
   return (
     <div id="pdf-content">
-      <LayoutClient children={undefined}></LayoutClient>
       <div className="min-h-screen p-4 md:p-8 bg-gray-50">
         <main className="report-page-container">
           <div className="person-report-header">
