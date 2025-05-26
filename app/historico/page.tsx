@@ -1,11 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import PersonModal from "@/components/list/person-modal"
-import ReportsTable from "@/components/list/reports-table"
-import FilterPanel from "@/components/list/filter-panel"
+import PersonModal from "@/components/historico/person-modal"
+import ReportsTable from "@/components/historico/reports-table"
+import FilterPanel from "@/components/historico/filter-panel"
 import "./styles.css"
-import LayoutClient from "../LayoutClient"
 // Asegúrate de que estas funciones devuelvan los datos y el estado esperados
 import { getStatus, getData, getPerson } from "@/services/table"
 
@@ -170,6 +169,9 @@ export default function Home() {
     }
 
     setFilteredPeople(result) // Actualizar los datos filtrados
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
   }, [searchTerm, categoryFilter, advancedFilters, showAdvancedFilters, peopleDataState]) // Dependencias del efecto
 
   // Manejar clic en una fila de la tabla
@@ -206,79 +208,77 @@ export default function Home() {
 
   return (
     <div>
-      <LayoutClient>
-        <div className="min-h-screen p-4 md:p-8 bg-gray-50">
-          <main className="app-container">
-            <div className="app-header text-left">
-              <h1 className="text-3xl font-bold mb-6 text-gray-800">Entity Watcher</h1>
-              <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
-            </div>
+      <div className="min-h-screen p-4 md:p-8 bg-gray-50">
+        <main className="app-container">
+          <div className="app-header text-left">
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Entity Watcher</h1>
+            <p className="app-subtitle">Plataforma integral de monitoreo y reportes</p>
+          </div>
 
-            <div className="content-container">
-              <div className="filters-container">
-                <div className="basic-filters">
-                  <div className="search-container">
-                    <input
-                      type="text"
-                      placeholder="Buscar por Nombre o ID..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="search-input"
-                    />
-                  </div>
-
-                  <div className="category-filter">
-                    <select
-                      value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value)}
-                      className="category-select"
-                    >
-                      <option value="all">Todas las Categorías</option>
-                      <option value="highReports">Reportes Altos {'>'} 0</option>
-                      <option value="mediumReports">Reportes Medios {'>'} 0</option>
-                      <option value="lowReports">Reportes Bajos {'>'} 0</option>
-                      <option value="crimes">Con Crímenes</option>
-                    </select>
-                  </div>
-
-                  <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
-                    {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
-                  </button>
+          <div className="content-container">
+            <div className="filters-container">
+              <div className="basic-filters">
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Buscar por Nombre o ID..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                  />
                 </div>
 
-                {showAdvancedFilters && (
-                  <FilterPanel
-                    filters={advancedFilters}
-                    onFilterChange={handleAdvancedFilterChange}
-                    availableCrimes={allCrimes}
-                  />
-                )}
+                <div className="category-filter">
+                  <select
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                    className="category-select"
+                  >
+                    <option value="all">Todas las Categorías</option>
+                    <option value="highReports">Reportes Altos {'>'} 0</option>
+                    <option value="mediumReports">Reportes Medios {'>'} 0</option>
+                    <option value="lowReports">Reportes Bajos {'>'} 0</option>
+                    <option value="crimes">Con Crímenes</option>
+                  </select>
+                </div>
+
+                <button className="advanced-filters-button" onClick={toggleAdvancedFilters}>
+                  {showAdvancedFilters ? "Ocultar Filtros Avanzados" : "Filtros Avanzados"}
+                </button>
               </div>
 
-              {/* Mostrar estado de carga y errores */}
-              {status === "procesando" && <div className="loading-message">Cargando datos...</div>}
-              {status === "error" && error && <div className="error-message">{error}</div>}
-              {status === "finalizado" && (
-                <div className="results-info">
-                  Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
-                </div>
+              {showAdvancedFilters && (
+                <FilterPanel
+                  filters={advancedFilters}
+                  onFilterChange={handleAdvancedFilterChange}
+                  availableCrimes={allCrimes}
+                />
               )}
-
-              {/* Tabla o mensaje de no datos */}
-              {status === "finalizado" && peopleDataState.length > 0 ? (
-                <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />
-              ) : status === "finalizado" && peopleDataState.length === 0 ? (
-                <div className="no-data-message">No se encontraron datos para mostrar.</div>
-              ) : null}
             </div>
 
-            {/* Modal */}
-            {isModalOpen && selectedPerson && (
-              <PersonModal person={selectedPerson} onClose={closeModal} />
+            {/* Mostrar estado de carga y errores */}
+            {status === "procesando" && <div className="loading-message">Cargando datos...</div>}
+            {status === "error" && error && <div className="error-message">{error}</div>}
+            {status === "finalizado" && (
+              <div className="results-info">
+                Mostrando {filteredPeople.length} de {peopleDataState?.length ?? 0} registros
+              </div>
             )}
-          </main>
-        </div>
-      </LayoutClient>
+
+            {/* Tabla o mensaje de no datos */}
+            {status === "finalizado" && peopleDataState.length > 0 ? (
+              <ReportsTable people={filteredPeople} onRowClick={handleRowClick} />
+            ) : status === "finalizado" && peopleDataState.length === 0 ? (
+              <div className="no-data-message">No se encontraron datos para mostrar.</div>
+            ) : null}
+          </div>
+
+          {/* Modal */}
+          {isModalOpen && selectedPerson && (
+            <PersonModal person={selectedPerson} onClose={closeModal} />
+          )}
+        </main>
+      </div>
     </div>
   );
 }

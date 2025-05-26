@@ -45,18 +45,18 @@ export default function RegisterForm() {
 
     if (email.includes("@")) {
       let infor = {
-//        'fullName':fullName,
-        'username':email,
-        'password':password,
+        //        'fullName':fullName,
+        'username': email,
+        'password': password,
       }
       try {
         const data = await register(infor)
         localStorage.setItem("idUser", data.user_id)
-        router.push('/list')
+        router.push('/consultar')
       } catch (err: any) {
         if (err.response && err.response.status === 400) {
-          const errorMessage = err.response.data.message || 
-          "Registration failed. Please check your information and try again."
+          const errorMessage = err.response.data.message ||
+            "Registration failed. Please check your information and try again."
           setError(errorMessage)
         } else {
           setError("An unexpected error occurred. Please try again.")
@@ -67,7 +67,7 @@ export default function RegisterForm() {
     } else {
       setError("Please enter a valid email")
     }
-      setIsLoading(false)
+    setIsLoading(false)
 
   }
 
