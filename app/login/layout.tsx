@@ -1,12 +1,7 @@
-import type { Metadata } from 'next'
-//import './globals.css'
+'use client'
 
-
-export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
-}
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 export default function AuthLayout({
   children,
@@ -14,6 +9,14 @@ export default function AuthLayout({
   children: React.ReactNode
 }>) {
 
+  const router = useRouter()
+
+  useEffect(() => {
+    const userId = localStorage.getItem('idUser')
+    if (userId) {
+      router.replace('/consultar')
+    }
+  }, [])
 
   return (
     <div>
