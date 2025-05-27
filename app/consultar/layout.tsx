@@ -1,3 +1,4 @@
+import ProtectedLayout from '@/components/common/ProtectedLayout'
 import type { Metadata } from 'next'
 
 
@@ -13,8 +14,8 @@ export default function FormLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div>
+    <ProtectedLayout>
       {children}
-    </div>
+    </ProtectedLayout>
   )
 }
