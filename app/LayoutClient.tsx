@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -11,31 +10,14 @@ export default function LayoutClient({
 }: {
   children: React.ReactNode
 }) {
-  const [isHidden, setIsHidden] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const pathname = usePathname()
 
-  useEffect(() => {
-
-    if (typeof window !== 'undefined') {
-      const sessionData = localStorage.getItem('idUser');
-      setIsLoggedIn(!!sessionData);
-    }
-  }, []);
-
-  const toggleHidden = () => {
-    const user = localStorage.getItem('idUser')
-    if (!user) return
-
-    setIsHidden(!isHidden)
-  }
-
+  const isLoggedIn = typeof window !== 'undefined' && !!localStorage.getItem('idUser')
   const isLoginPage = pathname === '/login'
 
   return (
     <div>
       {isLoginPage ? (
-
         <nav className="login-nav">
           <Image
             src={logo}
@@ -45,27 +27,25 @@ export default function LayoutClient({
           />
         </nav>
       ) : (
-
-        <nav id="Central" className={`CentralNav ${isHidden ? 'Hidden' : ''}`}>
+        <nav id="Central" className={`CentralNav`}>
           <Image
-
             src={logo}
             className="logo"
             alt="Logo"
             priority
           />
           <div className="nav-superior">
-            <Link href={isLoggedIn ? "/perfil" : "/login"} >
+            <Link href={isLoggedIn ? "/perfil" : "/login"}>
               <div className="nav-item">
                 <p>{isLoggedIn ? "Perfil" : "Iniciar Sesión"}</p>
               </div>
             </Link>
-            <Link href="/consultar" >
+            <Link href="/consultar">
               <div className="nav-item">
                 <p>Consultar</p>
               </div>
             </Link>
-            <Link href="/historico" >
+            <Link href="/historico">
               <div className="nav-item">
                 <p>Histórico</p>
               </div>

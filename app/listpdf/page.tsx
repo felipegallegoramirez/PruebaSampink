@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react"
 import PersonReport from "@/components/listpdf/person-modal"
 import "./styles.css"
-import { getStatus, getData } from "@/services/table"
+import { getStatus, getData, getPerson } from "@/services/table"
 import Swal from 'sweetalert2'
+import { useSearchParams } from "next/navigation"
 
 // --- Datos de Ejemplo ---
 // (Coloca aquí el objeto 'examplePersonData' completo que tenías)
@@ -198,17 +199,21 @@ export default function Home() {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
+  const params = useSearchParams()
+  const id = params.get('id') || null; // Obtiene el ID de los parámetros de búsqueda
 
   useEffect(() => {
-    const USE_API = false; // Cambia a true para usar API
+    const USE_API = true; // Cambia a true para usar API
+
+    if (!id) return;
 
     const fetchData = async () => {
-      const id = localStorage.getItem("id");
 
       if (USE_API) {
         try {
           setStatus("loading");
-          const person = await getData(id);
+          console.log(id);
+          const person = await getPerson(id);
           setSelectedPerson(person);
           setStatus("finalizado");
         } catch (error) {
@@ -227,7 +232,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
 
   // --- FUNCIÓN PARA DESCARGAR PDF ---
