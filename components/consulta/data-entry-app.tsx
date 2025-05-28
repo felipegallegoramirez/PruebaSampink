@@ -71,7 +71,7 @@ export default function IngresoDeDatosApp() {
   const manejarEnvio = () => {
     // Validar todos los datos antes de enviar
     const filasInvalidas = data.filter((fila) => {
-      return !fila.documento || !fila.fechaExpedicion || !fila.tipo || !/^\d+$/.test(fila.documento)
+      return !fila.documento || !fila.tipo || !/^\d+$/.test(fila.documento)
     })
 
     if (filasInvalidas.length > 0) {

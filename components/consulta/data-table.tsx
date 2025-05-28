@@ -43,7 +43,24 @@ export default function DataTable({ data, onUpdateRow, onDeleteRow, onBulkDelete
   const handleCellChange = (e: React.ChangeEvent<HTMLInputElement>, rowId: string, field: keyof DataRow) => {
     const row = data.find((r) => r.id === rowId)
     if (row) {
-      const updatedRow = { ...row, [field]: e.target.value }
+      let value = e.target.value
+
+      // Apply formatting only for 'fechaExpedicion' field
+      if (field === "fechaExpedicion") {
+        // Remove all non-digit characters
+        const digitsOnly = value.replace(/\D/g, "")
+
+        // Add slashes automatically
+        if (digitsOnly.length > 2 && digitsOnly.length <= 4) {
+          value = `${digitsOnly.slice(0, 2)}/${digitsOnly.slice(2)}`
+        } else if (digitsOnly.length > 4) {
+          value = `${digitsOnly.slice(0, 2)}/${digitsOnly.slice(2, 4)}/${digitsOnly.slice(4, 8)}`
+        } else {
+          value = digitsOnly
+        }
+      }
+
+      const updatedRow = { ...row, [field]: value }
       onUpdateRow(updatedRow)
     }
   }
