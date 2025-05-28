@@ -88,7 +88,7 @@ export default function LoginForm() {
       </div>
 
       <div className={styles.forgotPassword}>
-        <a href="#" onClick={(e) => e.preventDefault()}>
+        <a href="#" onClick={(e) => setError("Contacte con el administrador")}>
           ¿Olvidaste tu contraseña?
         </a>
       </div>
