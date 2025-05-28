@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import ProtectedLayout from '@/components/common/ProtectedLayout'
 
 export const metadata: Metadata = {
   title: 'v0 App',
@@ -13,8 +14,8 @@ export default function ListLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div>
+    <ProtectedLayout>
       {children}
-    </div>
+    </ProtectedLayout>
   )
 }

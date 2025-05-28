@@ -23,3 +23,9 @@ export const register= async (data: any): Promise<any> => {
     return response.data;
 };
 
+
+
+export const porfile= async (data: any): Promise<any> => {
+  const response = await axios.get<any>(`${API_URL}/getUserInfo/${data}/?${API_TOKEN}`, httpOptions);
+  return response.data;
+};

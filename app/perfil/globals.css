@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+/* styles.css or your relevant stylesheet */
+
+.person-report-header {
+  margin: 40px auto;
+  max-width: 950px;
+}
+
+.person-report-container {
+  max-width: 950px; /* Adjust maximum width as needed */
+  margin: 40px auto; /* Adds space top/bottom, centers horizontally */
+  padding: 25px 30px; /* Inner spacing */
+  background-color: #ffffff; /* White background */
+  border: 1px solid #e0e0e0; /* Subtle border */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
+  overflow: hidden; /* Ensures padding/border are respected */
+}
+
+/* Optional: Add some basic styles for the header */
+.report-header {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space out elements */
+  align-items: center; /* Align items vertically */
+  margin-bottom: 25px; /* Space below header */
+  padding-bottom: 15px; /* Space above the border */
+  border-bottom: 1px solid #eee; /* Separator line */
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  gap: 10px; /* Add gap between items when wrapping */
+}
+
+.report-header h2 {
+  margin: 0; /* Remove default margin */
+  color: #333;
+  flex-grow: 1; /* Allow title to take available space */
+}
+
+.report-date {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0;
+    text-align: right; /* Align date to the right if space allows */
+}
+
+/* Style the download button */
+.download-pdf-button {
+  padding: 8px 15px;
+  font-size: 0.9em;
+  font-weight: 500;
+  color: #fff;
+  background-color: #565eb4; /* Example blue */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  /* Ensure it doesn't get overly stretched by flex-grow on h2 */
+  flex-shrink: 0;
+}
+
+.download-pdf-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Ensure collapsible section titles have spacing */
+.collapsible-section h3 { /* Adjust selector if your component uses a different element */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Adjust grid layouts for better spacing */
+.info-grid, .counters-grid {
+    margin-bottom: 15px;
+}
+
+/* Add styles for the message when no person data */
+.centered-message {
+    text-align: center;
+    padding: 50px 20px;
+    color: #777;
+    font-style: italic;
+}
+
+/* --- Print Styles (Keep these for window.print) --- */
+@media print {
+  body * {
+    visibility: hidden; /* Hide everything by default when printing */
+  }
+  /* Make only the report container and its children visible */
+  .person-report-container, .person-report-container * {
+    visibility: visible;
+  }
+  /* Ensure the report takes up the print area */
+  .person-report-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none; /* Remove max-width for printing */
+    margin: 0;
+    padding: 10px; /* Reduce padding for print */
+    border: none; /* Remove border for print */
+    box-shadow: none; /* Remove shadow for print */
+    border-radius: 0;
+  }
+
+  /* Hide the download button itself when printing */
+  .download-pdf-button {
+    display: none !important;
+  }
+
+  /* Optionally force collapsible sections open for print */
+  .collapsible-section details { /* Target the details element if CollapsibleSection uses it */
+      open: true;
+  }
+  .collapsible-section details > summary { /* Hide the clickable summary arrow */
+       /* Optionally hide or style differently */
+       list-style: none;
+  }
+   .collapsible-section details > summary::-webkit-details-marker { /* Hide arrow in Chrome */
+       display: none;
+   }
+
+  /* Add page break avoidance where appropriate */
+   h2, h3, h4, h5 {
+       page-break-after: avoid;
+   }
+   .finding-item, .info-grid, .reputational-item {
+       page-break-inside: avoid;
+   }
+   .collapsible-section {
+       page-break-inside: avoid;
+   }
+
+   /* Adjust font size for print if needed */
+   body {
+       font-size: 10pt;
+   }
+   .download-pdf-button{
+    z-index: 1000000000 !important;
+  }
+
+}
