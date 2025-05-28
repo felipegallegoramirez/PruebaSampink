@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation' 
+import { usePathname } from 'next/navigation'
 import logo from '@/public/logo.png'
 
 export default function LayoutClient({
@@ -12,27 +12,30 @@ export default function LayoutClient({
   children: React.ReactNode
 }) {
   const [isHidden, setIsHidden] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false) 
-  const pathname = usePathname() 
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
-    
-    if (typeof window !== 'undefined') { 
-      const sessionData = localStorage.getItem('idUser'); 
+
+    if (typeof window !== 'undefined') {
+      const sessionData = localStorage.getItem('idUser');
       setIsLoggedIn(!!sessionData);
     }
   }, []);
 
   const toggleHidden = () => {
+    const user = localStorage.getItem('idUser')
+    if (!user) return
+
     setIsHidden(!isHidden)
   }
 
-  const isLoginPage = pathname === '/login' 
+  const isLoginPage = pathname === '/login'
 
   return (
     <div>
       {isLoginPage ? (
-        
+
         <nav className="login-nav">
           <Image
             src={logo}
@@ -42,10 +45,10 @@ export default function LayoutClient({
           />
         </nav>
       ) : (
-        
+
         <nav id="Central" className={`CentralNav ${isHidden ? 'Hidden' : ''}`}>
           <Image
-            
+
             src={logo}
             className="logo"
             alt="Logo"
