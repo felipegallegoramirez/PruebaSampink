@@ -25,6 +25,7 @@ export default function Home() {
     includeMedium: false,
     includeLow: false,
   })
+  const [selectedCheckId, setSelectedCheckId] = useState<string | null>(null);
 
   const checkStatus = async () => {
     const id = localStorage.getItem("idUser")
@@ -129,6 +130,7 @@ export default function Home() {
     try {
       const person = await getPerson(id)
       setSelectedPerson(person)
+      setSelectedCheckId(id)
       setIsModalOpen(true)
     } catch (error) {
       console.error("Error al obtener datos de la persona:", error)
@@ -217,7 +219,7 @@ export default function Home() {
           ) : null}
 
           {isModalOpen && selectedPerson && (
-            <PersonModal person={selectedPerson} onClose={() => setIsModalOpen(false)} />
+            <PersonModal person={selectedPerson} checkId={selectedCheckId} onClose={() => setIsModalOpen(false)} />
           )}
         </div>
       </main>
