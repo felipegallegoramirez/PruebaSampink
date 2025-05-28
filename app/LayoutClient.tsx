@@ -57,7 +57,7 @@ export default function LayoutClient({
           <div className="nav-superior">
             <Link href={isLoggedIn ? "/perfil" : "/login"} >
               <div className="nav-item">
-                <p>{isLoggedIn ? "Profile" : "Iniciar Sesión"}</p>
+                <p>{isLoggedIn ? "Perfil" : "Iniciar Sesión"}</p>
               </div>
             </Link>
             <Link href="/consultar" >
