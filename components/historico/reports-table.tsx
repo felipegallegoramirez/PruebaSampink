@@ -1,6 +1,24 @@
 "use client"
 
-const ReportsTable = ({ people, onRowClick }) => {
+const ReportsTable = ({ people, onRowClick, sortConfig, setSortConfig }) => {
+  const handleSort = (columnKey) => {
+    setSortConfig((prev) => {
+      if (prev.key === columnKey) {
+        const nextDirection =
+          prev.direction === "none" ? "asc" :
+            prev.direction === "asc" ? "desc" :
+              "none"
+        return { key: columnKey, direction: nextDirection }
+      }
+      return { key: columnKey, direction: "asc" }
+    })
+  }
+  const getSortSymbol = (key) => {
+    if (sortConfig.key !== key) return "–"
+    if (sortConfig.direction === "asc") return "↑"
+    if (sortConfig.direction === "desc") return "↓"
+    return "–"
+  }
   return (
     <div className="table-container">
       <table className="reports-table">
@@ -8,13 +26,24 @@ const ReportsTable = ({ people, onRowClick }) => {
           <tr>
             <th>Tipo de Documento</th>
             <th>ID</th>
-            <th>Estado</th>
-            <th>Altos</th>
-            <th>Medios</th>
-            <th>Bajos</th>
-            <th>Fecha de Consulta</th>
+            <th onClick={() => handleSort("status")} style={{ cursor: "pointer" }}>
+              Estado {getSortSymbol("status")}
+            </th>
+            <th onClick={() => handleSort("hallazgos_altos")} style={{ cursor: "pointer" }}>
+              Altos {getSortSymbol("hallazgos_altos")}
+            </th>
+            <th onClick={() => handleSort("hallazgos_medios")} style={{ cursor: "pointer" }}>
+              Medios {getSortSymbol("hallazgos_medios")}
+            </th>
+            <th onClick={() => handleSort("hallazgos_bajos")} style={{ cursor: "pointer" }}>
+              Bajos {getSortSymbol("hallazgos_bajos")}
+            </th>
+            <th onClick={() => handleSort("timestamp")} style={{ cursor: "pointer" }}>
+              Fecha de Consulta {getSortSymbol("timestamp")}
+            </th>
           </tr>
         </thead>
+
         <tbody>
           {(people ?? []).map((person, index) => {
             const key = person?.id ?? `person-${index}`;

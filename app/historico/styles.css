@@ -639,3 +639,28 @@ h1 {
   }
 }
 
+.basic-filters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 150px;
+}
+
+.category-filter {
+  flex-shrink: 0;
+}
+
+.category-select {
+  width: 180px; /* o el ancho que desees */
+}
+
+.advanced-filters-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}

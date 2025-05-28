@@ -13,6 +13,9 @@ export default function LayoutClient({
   const [isHidden, setIsHidden] = useState(false)
 
   const toggleHidden = () => {
+    const user = localStorage.getItem('idUser')
+    if (!user) return
+
     setIsHidden(!isHidden)
   }
 
@@ -33,9 +36,6 @@ export default function LayoutClient({
           alt="Logo"
         />
         <div className="nav-superior">
-          <Link href="/login" onClick={toggleHidden}>
-            <div className="nav-item"><p>Iniciar Sesión</p></div>
-          </Link>
           <Link href="/consultar" onClick={toggleHidden}>
             <div className="nav-item"><p>Consultar</p></div>
           </Link>
