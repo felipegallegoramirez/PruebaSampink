@@ -4,9 +4,9 @@ import LayoutClient from './LayoutClient'
 import { AuthProvider } from '@/components/login/auth-context'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Entity Watcher',
+  description: 'Consultas en lista',
+  generator: 'SamPink'
 }
 
 export default function RootLayout({
