@@ -212,7 +212,6 @@ export default function Home() {
             if (USE_API) {
                 try {
                     setStatus("loading");
-                    console.log(id);
                     const person = await getPerson(id);
                     setSelectedPerson(person);
                     setStatus("finalizado");

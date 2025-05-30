@@ -216,16 +216,24 @@ const PersonReport = ({ person, onDownloadPdf }) => {
             ) : (<p className="no-findings">No se encontraron sanciones reportadas por la JCC.</p>)}
           </CollapsibleSection>
 
-          <CollapsibleSection title="Antecedentes Procuraduría" defaultOpen={!shouldOpen(person?.procuraduria)}>
-            {shouldOpen(person?.procuraduria) ? (
+          <CollapsibleSection
+            title="Antecedentes Procuraduría"
+            defaultOpen={Array.isArray(person?.procuraduria) && person.procuraduria.length > 0}
+          >
+            {Array.isArray(person?.procuraduria) && person.procuraduria.length > 0 ? (
               <div className="findings-list disciplinary-list">
                 {person.procuraduria.map((antecedente, index) => (
                   <div key={`proc-${index}`} className="finding-item">
                     <h4>{antecedente?.delito ?? 'Registro Disciplinario'}</h4>
+
                     {(antecedente?.datos ?? []).map((dato, datoIndex) => (
-                      <div key={`proc-dato-${datoIndex}`} style={{ marginLeft: '10px', marginBottom: '15px' }}>
+                      <div
+                        key={`proc-dato-${datoIndex}`}
+                        style={{ marginLeft: '10px', marginBottom: '15px' }}
+                      >
                         <p><strong>SIRI:</strong> {dato?.SIRI ?? '--'}</p>
-                        {dato?.Sanciones?.length > 0 && (
+
+                        {Array.isArray(dato?.Sanciones) && dato.Sanciones.length > 0 && (
                           <>
                             <h5>Sanciones:</h5>
                             {dato.Sanciones.map((s, sIndex) => (
@@ -238,7 +246,8 @@ const PersonReport = ({ person, onDownloadPdf }) => {
                             ))}
                           </>
                         )}
-                        {dato?.Instancias?.length > 0 && (
+
+                        {Array.isArray(dato?.Instancias) && dato.Instancias.length > 0 && (
                           <>
                             <h5 style={{ marginTop: '10px' }}>Instancias:</h5>
                             {dato.Instancias.map((i, iIndex) => (
@@ -256,7 +265,9 @@ const PersonReport = ({ person, onDownloadPdf }) => {
                   </div>
                 ))}
               </div>
-            ) : (<p className="no-findings">No se encontraron antecedentes en la Procuraduría.</p>)}
+            ) : (
+              <p className="no-findings">No se encontraron antecedentes en la Procuraduría.</p>
+            )}
           </CollapsibleSection>
 
           <CollapsibleSection title="Sanciones SIRNA (Abogados)" defaultOpen={true}>
@@ -307,20 +318,36 @@ const PersonReport = ({ person, onDownloadPdf }) => {
                 </div>
               </>
             )}
-            {shouldOpen(person?.iadb) && (
+            {Array.isArray(person?.iadb) && person.iadb.length > 0 && (
               <>
                 <h4 style={{ marginTop: '10px' }}>Detalles BID</h4>
                 {person.iadb.map((item, index) => (
                   <div key={`iadb-${index}`} className="info-grid small-grid finding-item">
-                    <div className="info-item"><span className="info-label">Título:</span><span className="info-value">{item?.title ?? '--'}</span></div>
-                    <div className="info-item"><span className="info-label">País:</span><span className="info-value">{item?.country ?? '--'}</span></div>
-                    <div className="info-item"><span className="info-label">Motivos:</span><span className="info-value">{item?.grounds ?? '--'}</span></div>
-                    <div className="info-item"><span className="info-label">Desde:</span><span className="info-value">{item?._from ?? '--'}</span></div>
-                    <div className="info-item"><span className="info-label">Hasta:</span><span className="info-value">{item?.to ?? '--'}</span></div>
+                    <div className="info-item">
+                      <span className="info-label">Título:</span>
+                      <span className="info-value">{item?.title ?? '--'}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">País:</span>
+                      <span className="info-value">{item?.country ?? '--'}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Motivos:</span>
+                      <span className="info-value">{item?.grounds ?? '--'}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Desde:</span>
+                      <span className="info-value">{item?._from ?? '--'}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Hasta:</span>
+                      <span className="info-value">{item?.to ?? '--'}</span>
+                    </div>
                   </div>
                 ))}
               </>
             )}
+
           </CollapsibleSection>
 
           <CollapsibleSection title="Listas PEP" defaultOpen={true}>
@@ -352,21 +379,45 @@ const PersonReport = ({ person, onDownloadPdf }) => {
               <div className="info-item"> <span className="info-label">Personería Bogotá:</span> <span className="info-value">{(person?.personeriabog?.length ?? 0) > 0 ? `${person.personeriabog.length} registro(s)` : 'Sin registro'}</span> </div>
               <div className="info-item"> <span className="info-label">INPEC:</span> <span className="info-value">{person?.inpec ? `Registro encontrado (${person.inpec['Situación jurídica'] ?? ''} - ${person.inpec['Estado de ingreso'] ?? ''})` : 'Sin registro'}</span> </div>
             </div>
-            {shouldOpen(person?.rama_unificada) && (
+            {shouldOpen(person?.rama_unificada) && Array.isArray(person?.rama_unificada) && (
               <>
                 <h4 style={{ marginTop: '10px' }}>Detalles Rama Judicial Unificada (primeros 3)</h4>
                 {person.rama_unificada.slice(0, 3).map((proceso, index) => (
                   <div key={`rama-${index}-${proceso.llaveProceso}`} className="finding-item">
-                    <p><strong>Proceso: {proceso.llaveProceso}</strong> ({proceso.claseProceso})</p>
+                    <p>
+                      <strong>Proceso: {proceso.llaveProceso}</strong> ({proceso.claseProceso})
+                    </p>
                     <div className="info-grid small-grid">
-                      <div className="info-item"><span className="info-label">Despacho:</span><span className="info-value">{proceso.despacho}</span></div>
-                      <div className="info-item"><span className="info-label">Fecha Proceso:</span><span className="info-value">{proceso.fechaProceso ? new Date(proceso.fechaProceso).toLocaleDateString() : '--'}</span></div>
-                      <div className="info-item full-width"><span className="info-label">Sujetos Procesales:</span><span className="info-value">{proceso.sujetosProcesales}</span></div>
-                      <div className="info-item"><span className="info-label">Última Actuación:</span><span className="info-value">{proceso.fechaUltimaActuacion ? new Date(proceso.fechaUltimaActuacion).toLocaleDateString() : '--'}</span></div>
+                      <div className="info-item">
+                        <span className="info-label">Despacho:</span>
+                        <span className="info-value">{proceso.despacho}</span>
+                      </div>
+                      <div className="info-item">
+                        <span className="info-label">Fecha Proceso:</span>
+                        <span className="info-value">
+                          {proceso.fechaProceso
+                            ? new Date(proceso.fechaProceso).toLocaleDateString()
+                            : '--'}
+                        </span>
+                      </div>
+                      <div className="info-item full-width">
+                        <span className="info-label">Sujetos Procesales:</span>
+                        <span className="info-value">{proceso.sujetosProcesales}</span>
+                      </div>
+                      <div className="info-item">
+                        <span className="info-label">Última Actuación:</span>
+                        <span className="info-value">
+                          {proceso.fechaUltimaActuacion
+                            ? new Date(proceso.fechaUltimaActuacion).toLocaleDateString()
+                            : '--'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
-                {person.rama_unificada.length > 3 && <p>... y {person.rama_unificada.length - 3} procesos más.</p>}
+                {person.rama_unificada.length > 3 && (
+                  <p>... y {person.rama_unificada.length - 3} procesos más.</p>
+                )}
               </>
             )}
             {shouldOpen(person?.personeriabog) && (
