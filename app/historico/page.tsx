@@ -8,7 +8,7 @@ import { getStatus, getData, getPerson } from "@/services/table"
 import "./styles.css"
 
 export default function Home() {
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "none" })
+  const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "desc" })
   const [fechaInicio, setFechaInicio] = useState("")
   const [fechaFin, setFechaFin] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
